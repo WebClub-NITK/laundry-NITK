@@ -14,7 +14,7 @@ class Student extends React.Component{
                 obj2:{
                     name: "trousers",
                     qty: 3,
-                    price: 30,
+                    price:40,
                 }
             }
         };
@@ -62,7 +62,7 @@ class Student extends React.Component{
                     <Button title="confirm"/>
                     </View>
                     <View style={styles.confirm}>
-                    <Button title="Pay"/>
+                    <Button type="outline" title="Pay"/>
                     </View>
                 </View>
             </View>
@@ -75,9 +75,14 @@ const styles = StyleSheet.create({
     container:{
         position: 'absolute',
         margin: 60,
+        height: 200,
+        width: 200,
         justifyContent: "center",
         borderWidth: 0.5,    
-        
+        borderRadius: 5,
+        top: 50,
+        left: 20,
+   
     },
     Date:{
         marginTop: 3,
