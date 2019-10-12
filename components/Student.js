@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableHighlight } from 'react-native';
 
 class Student extends React.Component{
     constructor(props){
@@ -59,10 +59,16 @@ class Student extends React.Component{
                 </View>
                 <View style={styles.buttons}>
                     <View style={styles.confirm}>
-                    <Button title="confirm"/>
+                    
+                    <TouchableHighlight style={styles.confirmBtn}>
+                        <Text>Confirm</Text>
+                    </TouchableHighlight>
                     </View>
                     <View style={styles.confirm}>
-                    <Button type="outline" title="Pay"/>
+                    
+                    <TouchableHighlight style={styles.PayBtn}>
+                        <Text>Pay</Text>
+                    </TouchableHighlight>
                     </View>
                 </View>
             </View>
@@ -123,9 +129,17 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent: 'space-between'
     }, 
-    confirm:{
-        padding: 5,
-        margin: 5,
+    confirmBtn:{
+        alignItems: 'center',
+        backgroundColor: '#DDDDDD',
+        padding: 10,
+        borderRadius: 3,
+    },
+    PayBtn:{
+        alignItems: 'center',
+        backgroundColor: '#DDDDDD',
+        padding: 10,
+        borderRadius: 3,
     }
     
 })
