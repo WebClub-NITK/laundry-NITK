@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Button, TouchableHighlight } from 'react-native';
-
+import CurrentL  from "./current-laundry";
 class Student extends React.Component{
     constructor(props){
         super(props);
@@ -21,7 +21,10 @@ class Student extends React.Component{
     }
     render(){
         return (
+            <View>
+                <CurrentL/>
             <View style={styles.container}>
+                
                 <View style={styles.Date}>
                 <Text>Date- 11-10-2019</Text>
                 </View>
@@ -76,6 +79,7 @@ class Student extends React.Component{
                     </View>
                 </View>
             </View>
+            </View>
         )
     }
 }
@@ -84,7 +88,9 @@ class Student extends React.Component{
 const styles = StyleSheet.create({
     container:{
         position: 'absolute',
-        margin: 60,
+        marginTop: 300,
+        marginLeft:60,
+        marginRight:60,
         height: 200,
         width: 200,
         justifyContent: "center",
