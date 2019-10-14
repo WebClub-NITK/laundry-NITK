@@ -1,30 +1,25 @@
 import React,{useState} from 'react';
 import { StyleSheet, Text, View, TextInput,Button ,ScrollView,Image,  TouchableOpacity} from 'react-native';
-// import HistoryCards from '../components/history-card';
-const historyLaundryScreen = props => {
 
- 
+
+const loginScreen = props => {
+
+    console.log(props);
     return (
-     
-      <View style={styles.container}>
-          <View style={styles.header}></View>
-          <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
-          <View style={styles.body}>
-            <View style={styles.bodyContent}>
-              <Text style={styles.name}>history laundry screen</Text>
-                <Text style={styles.description}>
-                 #mt3 c315, Block 3
-                </Text>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={{color:'white'}}>Logout</Text>  
-              </TouchableOpacity>              
-            </View>
-        </View>
-      </View>
+       
+     <View>
+         <Text>
+             welcome to laundry app
+         </Text>
+         <Button title="login" onPress={()=>{props.navigation.navigate('studentHome')}}/>
+     </View>
     );
   }
 
-   export default historyLaundryScreen;
+   export default loginScreen;
+
+
+
 
 
   const styles = StyleSheet.create({
