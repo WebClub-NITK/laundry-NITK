@@ -77,6 +77,7 @@ class Student extends React.Component{
 }
 
 
+
 const styles = StyleSheet.create({
     container:{
         position: 'absolute',
@@ -143,4 +144,5 @@ const styles = StyleSheet.create({
     }
     
 })
+
 export default Student;
