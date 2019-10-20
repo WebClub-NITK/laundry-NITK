@@ -81,14 +81,14 @@ class Student extends React.Component{
 const styles = StyleSheet.create({
     container:{
         position: 'absolute',
-        margin: 60,
+        margin: 'auto',
         height: 200,
-        width: 200,
         justifyContent: "center",
         borderWidth: 0.5,    
         borderRadius: 5,
-        top: 50,
-        left: 20,
+        top: 10,
+        left: 10,
+        right: 10
    
     },
     Date:{
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         padding: 10,
         margin: 10,
-        justifyContent: "center",
+        justifyContent: "space-between",
     },
     item:{
         padding: 5,
