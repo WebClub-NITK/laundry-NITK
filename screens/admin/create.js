@@ -1,25 +1,24 @@
 import React,{useState} from 'react';
 import { StyleSheet, Text, View, TextInput,Button ,ScrollView,Image,  TouchableOpacity} from 'react-native';
-
+import NumericInput from 'react-native-numeric-input'
 const createScreen = props => {
 
  
     return (
-      <View style={styles.container}>
-          <View style={styles.header}></View>
-          <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
-          <View style={styles.body}>
-            <View style={styles.bodyContent}>
-              <Text style={styles.name}>Adarsh profile Naidu</Text>
-                <Text style={styles.description}>
-                 #mt3 c315, Block 3
-                </Text>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={{color:'white'}}>Logout</Text>  
-              </TouchableOpacity>              
-            </View>
-        </View>
-      </View>
+        <NumericInput 
+        value={this.state.value} 
+        onChange={value => this.setState({value})} 
+        onLimitReached={(isMax,msg) => console.log(isMax,msg)}
+        totalWidth={240} 
+        totalHeight={50} 
+        iconSize={25}
+        step={1.5}
+        valueType='real'
+        rounded 
+        textColor='#B0228C' 
+        iconStyle={{ color: 'white' }} 
+        rightButtonBackgroundColor='#EA3788' 
+        leftButtonBackgroundColor='#E56B70'/>
     );
   }
 
