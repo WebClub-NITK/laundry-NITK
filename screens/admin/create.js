@@ -1,25 +1,40 @@
 import React,{useState} from 'react';
 import { StyleSheet, Text, View, TextInput,Button ,ScrollView,Image,  TouchableOpacity} from 'react-native';
 import NumericInput from 'react-native-numeric-input'
-const createScreen = props => {
+class Create extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      shirts: {
+        qty: 0,
+      },
+      trouser: {
+        qty: 0,
+      },
+    }
+  }
+    componentDidMount(){
 
- 
-    return (
-        <NumericInput 
-        value={this.state.value} 
-        onChange={value => this.setState({value})} 
-        onLimitReached={(isMax,msg) => console.log(isMax,msg)}
-        totalWidth={240} 
-        totalHeight={50} 
-        iconSize={25}
-        step={1.5}
-        valueType='real'
-        rounded 
-        textColor='#B0228C' 
-        iconStyle={{ color: 'white' }} 
-        rightButtonBackgroundColor='#EA3788' 
-        leftButtonBackgroundColor='#E56B70'/>
-    );
+    }
+      render(){
+        return (
+          <NumericInput 
+          value={this.state.value} 
+          onChange={value => this.setState({value})} 
+          onLimitReached={(isMax,msg) => console.log(isMax,msg)}
+          totalWidth={240} 
+          totalHeight={50} 
+          iconSize={25}
+          step={1.5}
+          valueType='real'
+          rounded 
+          textColor='#B0228C' 
+          iconStyle={{ color: 'white' }} 
+          rightButtonBackgroundColor='#EA3788' 
+          leftButtonBackgroundColor='#E56B70'/>
+      );
+      }  
+      
   }
 
 export default createScreen;
