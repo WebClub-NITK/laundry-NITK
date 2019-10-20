@@ -7,19 +7,9 @@ import StackNavigator from './navigation/navigation';
 export default function App() {
 
     return(
-    
-    
-    <StackNavigator />
-    
-    
+     <StackNavigator />
+    );
 
-
-    
-
-      
-
-      );
- 
 }
 
 const styles = StyleSheet.create({

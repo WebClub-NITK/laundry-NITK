@@ -1,13 +1,16 @@
 import {createAppContainer} from 'react-navigation';
-import studentProfileScreen from '../screens/student-profile';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator,createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import currentLaundryScreen from '../screens/current-laundry';
-import historyLaundryScreen from '../screens/history-laundry';
-import loginScreen from '../screens/login-screen';
+//customer routes
+import studentProfileScreen from '../screens/customer/student-profile';
+import currentLaundryScreen from '../screens/customer/current-laundry';
+import historyLaundryScreen from '../screens/customer/history-laundry';
+import loginScreen from '../screens/customer/login-screen';
+//admin routes
+import createScreen from '../screens/admin/create';
 
 
-const BottomTabNavigator = createBottomTabNavigator({
+const customerBottomTabNavigator = createBottomTabNavigator({
     Home : {
       screen:createMaterialTopTabNavigator({
         current : currentLaundryScreen,
@@ -18,9 +21,23 @@ const BottomTabNavigator = createBottomTabNavigator({
   }
 );
 
+
+const adminBottomTabNavigator = createBottomTabNavigator({
+  Laundry : {
+    screen:createMaterialTopTabNavigator({
+      AddLaundry : createScreen,
+      current : currentLaundryScreen,
+      history : historyLaundryScreen
+    })
+  },
+  Notify : studentProfileScreen
+}
+);
+
 const stackNavigator = createStackNavigator({
   login : loginScreen,
-  studentHome : BottomTabNavigator
+  customerHome : customerBottomTabNavigator,
+  adminHome: adminBottomTabNavigator
 });
 
 

@@ -26,5 +26,4 @@ class historyCard extends React.Component{
   }
 
 
-
   export default historyCard;
