@@ -5,6 +5,7 @@ class Create extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+<<<<<<< HEAD
       shirtQty: 0,
       trouserQty: 0,
       tshirtQty: 0,
@@ -124,6 +125,38 @@ class Create extends React.Component{
       </View>
     </View>
     );
+=======
+      shirts: {
+        qty: 0,
+      },
+      trouser: {
+        qty: 0,
+      },
+    }
+  }
+    componentDidMount(){
+
+    }
+      render(){
+        return (
+          <NumericInput 
+          value={this.state.value} 
+          onChange={value => this.setState({value})} 
+          onLimitReached={(isMax,msg) => console.log(isMax,msg)}
+          totalWidth={240} 
+          totalHeight={50} 
+          iconSize={25}
+          step={1.5}
+          valueType='real'
+          rounded 
+          textColor='#B0228C' 
+          iconStyle={{ color: 'white' }} 
+          rightButtonBackgroundColor='#EA3788' 
+          leftButtonBackgroundColor='#E56B70'/>
+      );
+      }  
+      
+>>>>>>> 51c665956dd7fcfdfe9d91265479e5248e721275
   }
 }
 const styles = StyleSheet.create({
