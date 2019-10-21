@@ -18,6 +18,14 @@ const customerBottomTabNavigator = createBottomTabNavigator({
       })
     },
     Profile : studentProfileScreen
+  },
+  {
+    defaultNavigationOptions: () => ({}),
+    tabBarOptions: {
+      style:{
+          paddingBottom: 15
+      }
+    }
   }
 );
 
