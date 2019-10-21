@@ -30,6 +30,7 @@ class customerLaundry(APIView):
     def post(self, request, format=None):
         try:
             rollNo = request.data.get('token')
+            print(rollNo)
             customer = CustomerDetails.objects.get(rollNo = rollNo)
             laundry = CustomerLaundryDetails.objects.filter(customer = customer)
             serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
