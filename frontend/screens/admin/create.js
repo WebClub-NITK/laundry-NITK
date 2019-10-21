@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, TextInput,Button ,ScrollView,Image,  TouchableOpacity, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, TextInput,Button ,ScrollView,Image,  TouchableOpacity, TouchableHighlight, ScorllView} from 'react-native';
 import NumericInput from 'react-native-numeric-input'
 class Create extends React.Component{
   constructor(props){
@@ -31,6 +31,7 @@ class Create extends React.Component{
     
     return (
       <View style={styles.container}>
+       <ScrollView>
         <View style={styles.elements}>
           <Text>Shirt</Text>
       <NumericInput 
@@ -45,10 +46,10 @@ class Create extends React.Component{
       step={1}
       valueType='real'
       rounded 
-      textColor='#B0228C' 
+      textColor='#000000' 
       iconStyle={{ color: 'white' }} 
-      rightButtonBackgroundColor='#EA3788' 
-      leftButtonBackgroundColor='#E56B70'/>
+      rightButtonBackgroundColor='#00bfff' 
+      leftButtonBackgroundColor='#00bfff'/>
       </View>
       <View style={styles.elements}>
         <Text>Trouser</Text>
@@ -64,10 +65,10 @@ class Create extends React.Component{
       step={1}
       valueType='real'
       rounded 
-      textColor='#B0228C' 
+      textColor='#000000' 
       iconStyle={{ color: 'white' }} 
-      rightButtonBackgroundColor='#EA3788' 
-      leftButtonBackgroundColor='#E56B70'/>
+      rightButtonBackgroundColor='#00bfff' 
+      leftButtonBackgroundColor='#00bfff'/>
       </View>
     <View style={styles.elements}>
       <Text>T-Shirt</Text>
@@ -83,10 +84,10 @@ class Create extends React.Component{
       step={1}
       valueType='real'
       rounded 
-      textColor='#B0228C' 
+      textColor='#000000' 
       iconStyle={{ color: 'white' }} 
-      rightButtonBackgroundColor='#EA3788' 
-      leftButtonBackgroundColor='#E56B70'/>
+      rightButtonBackgroundColor='#00bfff' 
+      leftButtonBackgroundColor='#00bfff'/>
       </View>
       
     <View style={styles.elements}>
@@ -103,10 +104,10 @@ class Create extends React.Component{
       step={1}
       valueType='real'
       rounded 
-      textColor='#B0228C' 
+      textColor='#000000' 
       iconStyle={{ color: 'white' }} 
-      rightButtonBackgroundColor='#EA3788' 
-      leftButtonBackgroundColor='#E56B70'/>
+      rightButtonBackgroundColor='#00bfff' 
+      leftButtonBackgroundColor='#00bfff'/>
       </View>
       
     <View style={styles.elements}>
@@ -123,16 +124,17 @@ class Create extends React.Component{
       step={1}
       valueType='real'
       rounded 
-      textColor='#B0228C' 
+      textColor='#000000' 
       iconStyle={{ color: 'white' }} 
-      rightButtonBackgroundColor='#EA3788' 
-      leftButtonBackgroundColor='#fad0e0'/>
+      rightButtonBackgroundColor='#00bfff' 
+      leftButtonBackgroundColor='#00bfff'/>
       </View>
       <View style = {styles.Btn}>
         <TouchableHighlight style={styles.endBtn}>
-          <Text>Done</Text>
+          <Text style={styles.text}>Done</Text>
         </TouchableHighlight>
       </View>
+     </ScrollView>
     </View>
     );
   }
@@ -206,13 +208,16 @@ const styles = StyleSheet.create({
     },
     endBtn:{
       alignItems: 'center',
-      backgroundColor: '#679CFF',
+      backgroundColor: '#8fbc8f',
       padding: 10,
     },
     container:{
       margin: 10,
       padding: 5,
       flex: 1,
-    }
+    },
+   text:{
+   color:'white'
+  }
   });
   export default Create;

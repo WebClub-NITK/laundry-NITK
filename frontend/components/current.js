@@ -61,13 +61,12 @@ class Student extends React.Component{
                     <View style={styles.confirm}>
                     
                     <TouchableHighlight style={styles.confirmBtn}>
-                        <Text>Confirm</Text>
+                        <Text style={styles.text}>Confirm</Text>
                     </TouchableHighlight>
                     </View>
                     <View style={styles.confirm}>
-                    
                     <TouchableHighlight style={styles.PayBtn}>
-                        <Text>Pay</Text>
+                        <Text style={styles.text}>Pay</Text>
                     </TouchableHighlight>
                     </View>
                 </View>
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
         top: 10,
         left: 10,
         right: 10
-   z
     },
     Date:{
         marginTop: 3,
@@ -132,17 +130,19 @@ const styles = StyleSheet.create({
     }, 
     confirmBtn:{
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#0000ff',
         padding: 10,
         borderRadius: 3,
     },
     PayBtn:{
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#0000ff',
         padding: 10,
         borderRadius: 3,
-    }
-    
+    },
+   text:{
+   color:'white'
+  }
 })
 
 export default Student;
