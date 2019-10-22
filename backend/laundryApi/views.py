@@ -19,8 +19,10 @@ class customerDetails(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        # print(request.data)
-        serializer = CustomerDetailsSerializer(data=request.data)
+        print(request.body)
+        json_data = json.loads(str(request.body, encoding='utf-8'))
+        print(json_data)
+        serializer = CustomerDetailsSerializer(data=json_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

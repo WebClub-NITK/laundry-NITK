@@ -6,13 +6,13 @@ class ItemDetails(models.Model):
     amount = models.IntegerField()
 
 class CustomerDetails(models.Model):
-    key = models.CharField(max_length = 20)
-    roomNo = models.CharField(max_length = 10)
-    blockNo = models.CharField(max_length = 10)
-    name = models.CharField(max_length = 20)
-    email = models.CharField(max_length = 25)
-    phoneNo = models.CharField(max_length = 15)
-    profilePic =  models.CharField(max_length = 25)
+    key = models.CharField(max_length = 100)
+    roomNo = models.CharField(max_length = 100)
+    blockNo = models.CharField(max_length = 100)
+    name = models.CharField(max_length = 100)
+    email = models.CharField(max_length = 100)
+    phoneNo = models.CharField(max_length = 100)
+    profilePic =  models.CharField(max_length = 100)
 
 class CustomerLaundryDetails(models.Model):
     customer = models.ForeignKey(CustomerDetails,on_delete=models.CASCADE,default=None)
