@@ -23,6 +23,7 @@ const customerBottomTabNavigator = createBottomTabNavigator({
   {
     defaultNavigationOptions: () => ({}),
     tabBarOptions: {
+      activeTintColor: 'black',
       style: {
         paddingBottom: 15
       }
