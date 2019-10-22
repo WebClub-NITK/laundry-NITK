@@ -1,16 +1,8 @@
 {
-<<<<<<< HEAD
-  "hostType": "tunnel",
-  "lanType": "ip",
-  "dev": true,
-  "minify": false,
-  "urlRandomness": "th-bis",
-=======
   "hostType": "localhost",
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "wb-w2w",
->>>>>>> 4833534c1018b1b64414587710bbebb1352a98f5
+  "urlRandomness": "xm-vdt",
   "https": false
 }

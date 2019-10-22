@@ -1,29 +1,28 @@
-import {createAppContainer} from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator,createMaterialTopTabNavigator} from 'react-navigation-tabs';
+import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
 //customer routes
 import studentProfileScreen from '../screens/customer/student-profile';
 import currentLaundryScreen from '../screens/customer/current-laundry';
 import historyLaundryScreen from '../screens/customer/history-laundry';
 import loginScreen from '../screens/customer/login-screen';
 //admin routes
-import createScreen from '../screens/admin/create';
-
+import adminHome from '../screens/admin/home';
 
 const customerBottomTabNavigator = createBottomTabNavigator({
-    Home : {
-      screen:createMaterialTopTabNavigator({
-        current : currentLaundryScreen,
-        history : historyLaundryScreen
-      })
-    },
-    Profile : studentProfileScreen
+  Home: {
+    screen: createMaterialTopTabNavigator({
+      current: currentLaundryScreen,
+      history: historyLaundryScreen
+    })
   },
+  Profile: studentProfileScreen
+},
   {
     defaultNavigationOptions: () => ({}),
     tabBarOptions: {
-      style:{
-          paddingBottom: 15
+      style: {
+        paddingBottom: 15
       }
     }
   }
@@ -31,22 +30,27 @@ const customerBottomTabNavigator = createBottomTabNavigator({
 
 
 const adminBottomTabNavigator = createBottomTabNavigator({
-  Laundry : {
-    screen:createMaterialTopTabNavigator({
-      AddLaundry : createScreen,
-      current : currentLaundryScreen,
-      history : historyLaundryScreen
-    })
-  },
-  Notify : studentProfileScreen
-}
+  Laundry: adminHome,
+  Notify: studentProfileScreen
+},
+  {
+    defaultNavigationOptions: () => ({}),
+    tabBarOptions: {
+      style: {
+        paddingBottom: 15
+      }
+    }
+  }
 );
 
 const stackNavigator = createStackNavigator({
-  login : loginScreen,
-  customerHome : customerBottomTabNavigator,
+  login: loginScreen,
+  customerHome: customerBottomTabNavigator,
   adminHome: adminBottomTabNavigator
-});
+},
+  {
+    headerMode: 'none'
+  });
 
 
 export default createAppContainer(stackNavigator);

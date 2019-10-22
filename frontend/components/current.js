@@ -19,8 +19,13 @@ class Student extends React.Component{
             }
         };
     }
+
+
+
     render(){
+
         return (
+        
             <View style={styles.container}>
                 <View style={styles.Date}>
                 <Text>Date- 11-10-2019</Text>
@@ -88,6 +93,9 @@ const styles = StyleSheet.create({
         top: 10,
         left: 10,
         right: 10
+    },
+    rule:{
+        flex:1
     },
     Date:{
         marginTop: 3,
