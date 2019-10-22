@@ -6,6 +6,7 @@ from rest_framework import status
 from laundryApi.models import ItemDetails,CustomerDetails,CustomerLaundryDetails,TrackingProgress,PaymentDetails
 from laundryApi.serializers import ItemDetailsSerializer,CustomerDetailsSerializer,CustomerLaundryDetailsSerializer
 from laundryApi.serializers import TrackingProgressSerializer,PaymentDetailsSerializer
+import json
 
 # Create your views here.
 
@@ -18,23 +19,46 @@ class customerDetails(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = CustomerDetails(data=request.data)
+        # print(request.data)
+        serializer = CustomerDetailsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class customerLaundry(APIView):
+class retreiveCustomerLaundry(APIView):
 
     def post(self, request, format=None):
         try:
-            rollNo = request.data.get('token')
-            customer = CustomerDetails.objects.get(rollNo = rollNo)
+            key = request.data.get('key')
+            # print(key)
+            customer = CustomerDetails.objects.get(key = key)
             laundry = CustomerLaundryDetails.objects.filter(customer = customer)
             serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
             return Response(serializer.data)
         except:
+            # print("except")
             return Response(status=status.HTTP_204_NO_CONTENT)
         # print(data)
         # return Http404
+
+class enterCustomerLaundry(APIView):
+
+    def post(self, request, format=None):
+        try:
+            key = request.data.get('key')
+            # print(key)
+            customer = CustomerDetails.objects.get(key = key)
+            dic = json.loads(request.data)
+            for x in dic:
+                if x=="key":
+                    continue
+                item = ItemDetails.objects.get(id = x)
+                obj = CustomerLaundryDetails(customer=customer,item=item,quantity=dic[x])
+                obj.save()
+            # serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
+            return Response(status=status.HTTP_201_CREATED)
+        except:
+            # print("except")
+            return Response(status=status.HTTP_204_NO_CONTENT)

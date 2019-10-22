@@ -6,19 +6,19 @@ class ItemDetails(models.Model):
     amount = models.IntegerField()
 
 class CustomerDetails(models.Model):
-    rollNo = models.CharField(max_length = 20)
+    key = models.CharField(max_length = 20)
     roomNo = models.CharField(max_length = 10)
-    blockNo = models.IntegerField()
+    blockNo = models.CharField(max_length = 10)
     name = models.CharField(max_length = 20)
     email = models.CharField(max_length = 25)
     phoneNo = models.CharField(max_length = 15)
-    profilePic =  models.ImageField(blank=True)
+    profilePic =  models.CharField(max_length = 25)
 
 class CustomerLaundryDetails(models.Model):
     customer = models.ForeignKey(CustomerDetails,on_delete=models.CASCADE,default=None)
     dateGiven = models.DateTimeField(auto_now_add=True)
     item = models.ForeignKey(ItemDetails,on_delete=models.CASCADE,default=None)
-    datePickup = models.DateTimeField()
+    datePickup = models.DateTimeField(default=None)
     quantity = models.IntegerField()
 
 class TrackingProgress(models.Model):

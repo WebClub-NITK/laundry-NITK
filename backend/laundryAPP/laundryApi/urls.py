@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = [
     path('customerDetails/',views.customerDetails.as_view()),
-    path('customerLaundry/',views.customerLaundry.as_view()),
+    path('retreiveCustomerLaundry/',views.retreiveCustomerLaundry.as_view()),
+    path('enterCustomerLaundry/',views.enterCustomerLaundry.as_view())
     ]
