@@ -5,9 +5,11 @@ import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-n
 import studentProfileScreen from '../screens/customer/student-profile';
 import currentLaundryScreen from '../screens/customer/current-laundry';
 import historyLaundryScreen from '../screens/customer/history-laundry';
-import loginScreen from '../screens/customer/login-screen';
 //admin routes
 import adminHome from '../screens/admin/home';
+//login route
+import loginScreen from '../screens/login-screen';
+
 
 const customerBottomTabNavigator = createBottomTabNavigator({
   Home: {

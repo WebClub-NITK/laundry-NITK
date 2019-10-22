@@ -10,7 +10,7 @@ class ItemDetailsSerializer(serializers.ModelSerializer):
 class CustomerDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerDetails
-        fields = ['rollNo','roomNo','blockNo','name','email','phoneNo','profilePic']
+        fields = ['key','roomNo','blockNo','name','email','phoneNo','profilePic']
 
 class CustomerLaundryDetailsSerializer(serializers.ModelSerializer):
     class Meta:

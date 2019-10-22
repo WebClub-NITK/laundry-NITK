@@ -3,7 +3,7 @@ import { Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, Keybo
 import { Button } from 'react-native-elements';
 import * as Google from 'expo-google-app-auth';
 import Modal from "react-native-modal";
-import customerDetailService from '../../_services/customer-details';
+import customerDetailService from '../_services/customer-details';
 
 class customerLogin extends React.Component {
     constructor(props) {
@@ -67,7 +67,6 @@ class customerLogin extends React.Component {
 
     customerLogin() {
         var authApiResult = this.state.result.user;
-        console.log(authApiResult);
         var customerData = {
             roomNo: this.state.roomno,
             blockNo: this.state.blockno,
@@ -79,7 +78,7 @@ class customerLogin extends React.Component {
         }
         console.log(customerData);
         
-        customerDetailService.this.postCustomerDetails(customerData);
+        customerDetailService.postCustomerDetails(customerData);
 
         this.setState({modalVisible: false}, () => this.props.navigation.navigate('customerHome',customerData));
    
@@ -139,7 +138,7 @@ class customerLogin extends React.Component {
                                                 console.log("google");
                                                 this.customerLogin();
                                             }}
-                                            title="Submit"
+                                            title="Submiit"
                                         />
 
                                     </View>

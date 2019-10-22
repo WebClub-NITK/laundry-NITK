@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import ItemDetails, CustomerDetails, CustomerLaundryDetails, TrackingProgress, PaymentDetails
+
 # Register your models here.
+from .models import ItemDetails,CustomerDetails,CustomerLaundryDetails,TrackingProgress,PaymentDetails
 
 admin.site.register(ItemDetails)
 admin.site.register(CustomerDetails)
