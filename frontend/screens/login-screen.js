@@ -19,10 +19,7 @@ class customerLogin extends React.Component {
 
 
     getRoomBlock = (visible) => {
-        console.log("room");
-        console.log(visible)
         this.setState({ modalVisible: visible });
-        console.log(this.state.modalVisible);
     }
 
 
@@ -68,17 +65,27 @@ class customerLogin extends React.Component {
     customerLogin() {
         var authApiResult = this.state.result.user;
         var customerData = {
+            key: authApiResult.id,
             roomNo: this.state.roomno,
             blockNo: this.state.blockno,
-            phoneNo: this.state.phoneno,
             name: authApiResult.name,
-            id: authApiResult.id,
             email: authApiResult.email,
-            profile: authApiResult.profile
+            phoneNo: this.state.phoneno,
+            
+           
+        
+            profilePic: authApiResult.profile
         }
         console.log(customerData);
         
-        customerDetailService.postCustomerDetails(customerData);
+
+        customerDetailService.postCustomerDetails(customerData).then((res)=>{
+                console.log("post request successfull");
+                console.log(res)
+        }).catch((e)=>{
+            console.log("here")
+            console.log(e);
+        });
 
         this.setState({modalVisible: false}, () => this.props.navigation.navigate('customerHome',customerData));
    
@@ -88,9 +95,6 @@ class customerLogin extends React.Component {
 
     render() {
 
-
-
-        console.log(this.props);
         return (
 
             <KeyboardAvoidingView style={styles.containerView} behavior="padding">

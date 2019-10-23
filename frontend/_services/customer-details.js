@@ -1,12 +1,36 @@
-var HTTPService = require('react-native-http').HTTPService;
+import apiUrl from '../environment';
+class customerDetails{
 
-class customerDetails extends HTTPService {
-  
-    postCustomerDetails(customerDetail) {
-        console.log("service")    
-        var path = `localhost:8000/api/customerDetails`;
-        return this.post(path, customerDetail);
-    }
+        postCustomerDetails(customerDetail) {
+            var path = apiUrl+"/customerDetails";
+            customerDetails = JSON.stringify(customerDetail);
+            return fetch(path, {
+                method: "POST",//Request Type 
+                body: customerDetails,//post body 
+                headers: {//Header Defination 
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+            })
+
+        }
+
+        getCustomerProfile(roomno,blockno){
+            var path = apiUrl+"/";
+            data={
+                roomno:roomno,
+                blockno:blockno
+            }
+            data = JSON.stringify(data);
+            return fetch(path, {
+                method: "POST",//Request Type 
+                body: data,//post body 
+                headers: {//Header Defination 
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+            })
+        }
+
+
 }
 const b = new customerDetails();
 export default b; 
