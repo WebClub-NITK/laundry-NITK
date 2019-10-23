@@ -33,7 +33,7 @@ class customerLogin extends React.Component {
                 type:'success',
                 user: {
                     name: "manan poddar",
-                    id: "107682254345676540759",
+                    key: "107682254345676540759",
                     email: "mananpoddarm@gmail.com",
                     profile: "https://lh3.googleusercontent.com/a-/AAuE7mDF2J8FGmLH7YQ1OXZRQNhGkSCAfJHKuufY4bKj"
                 }
@@ -72,16 +72,21 @@ class customerLogin extends React.Component {
             blockNo: this.state.blockno,
             phoneNo: this.state.phoneno,
             name: authApiResult.name,
-            id: authApiResult.id,
+            key: authApiResult.key,
             email: authApiResult.email,
             profile: authApiResult.profile
         }
         console.log(customerData);
-        
-        customerDetailService.postCustomerDetails(customerData);
+
+        customerDetailService.postCustomerDetails(customerData).then((res)=>{
+          console.log("success");
+          console.log(res);
+        }).catch((e)=>{
+          console.log(e);
+        });
 
         this.setState({modalVisible: false}, () => this.props.navigation.navigate('customerHome',customerData));
-   
+
 
     }
 
@@ -212,5 +217,3 @@ const styles = StyleSheet.create({
 })
 
 export default customerLogin;
-
-
