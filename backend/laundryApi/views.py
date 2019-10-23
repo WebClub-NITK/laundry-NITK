@@ -19,6 +19,7 @@ class customerDetails(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+# <<<<<<< Updated upstream
         print(request.body)
         json_data = json.loads(str(request.body, encoding='utf-8'))
         print(json_data)
@@ -28,20 +29,32 @@ class customerDetails(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# =======
+#         # print(request.data)
+#         # print("ddssd")
+#         try:
+#             serializer = CustomerDetailsSerializer(data=request.data)
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         except:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# >>>>>>> Stashed changes
 
 class retreiveCustomerLaundry(APIView):
 
     def post(self, request, format=None):
-        try:
-            key = request.data.get('key')
-            # print(key)
-            customer = CustomerDetails.objects.get(key = key)
-            laundry = CustomerLaundryDetails.objects.filter(customer = customer)
-            serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
-            return Response(serializer.data)
-        except:
-            # print("except")
-            return Response(status=status.HTTP_204_NO_CONTENT)
+        # try:
+        key = request.data.get('key')
+        # print(key)
+        customer = CustomerDetails.objects.get(key = key)
+        laundry = CustomerLaundryDetails.objects.filter(customer = customer)
+        serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
+        return Response(serializer.data)
+        # except:
+        #     # print("except")
+        #     return Response(status=status.HTTP_204_NO_CONTENT)
         # print(data)
         # return Http404
 
@@ -52,11 +65,14 @@ class enterCustomerLaundry(APIView):
             key = request.data.get('key')
             # print(key)
             customer = CustomerDetails.objects.get(key = key)
-            dic = json.loads(request.data)
+            print(request.data.get('quantity'))
+            dic = json.dumps(request.data.get('quantity'))
+            dic = json.loads(dic)
+            print(dic)
             for x in dic:
                 if x=="key":
                     continue
-                item = ItemDetails.objects.get(id = x)
+                item = ItemDetails.objects.get(pk = x)
                 obj = CustomerLaundryDetails(customer=customer,item=item,quantity=dic[x])
                 obj.save()
             # serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
@@ -64,3 +80,20 @@ class enterCustomerLaundry(APIView):
         except:
             # print("except")
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+class getToken(APIView):
+
+    def post(self, request, format=None):
+        blockNo = request.data.get('blockNo')
+        roomNo = request.data.get('roomNo')
+        objs = CustomerDetails.objects.filter(blockNo=blockNo).filter(roomNo=roomNo)
+        data=[]
+        for obj in objs :
+            dic = dict()
+            dic["key"] = obj.key
+            dic["name"] = obj.name
+            dic["profilePic"] = obj.profilePic
+            data.append(dic)
+        data = json.dumps(data)
+        print(data)
+        return Response(data,status=status.HTTP_201_CREATED)

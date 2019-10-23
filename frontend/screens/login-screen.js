@@ -30,7 +30,7 @@ class customerLogin extends React.Component {
                 type:'success',
                 user: {
                     name: "manan poddar",
-                    id: "107682254345676540759",
+                    key: "107682254345676540759",
                     email: "mananpoddarm@gmail.com",
                     profile: "https://lh3.googleusercontent.com/a-/AAuE7mDF2J8FGmLH7YQ1OXZRQNhGkSCAfJHKuufY4bKj"
                 }
@@ -69,6 +69,7 @@ class customerLogin extends React.Component {
             roomNo: this.state.roomno,
             blockNo: this.state.blockno,
             name: authApiResult.name,
+            key: authApiResult.key,
             email: authApiResult.email,
             phoneNo: this.state.phoneno,
             
@@ -88,7 +89,7 @@ class customerLogin extends React.Component {
         });
 
         this.setState({modalVisible: false}, () => this.props.navigation.navigate('customerHome',customerData));
-   
+
 
     }
 
@@ -216,5 +217,3 @@ const styles = StyleSheet.create({
 })
 
 export default customerLogin;
-
-

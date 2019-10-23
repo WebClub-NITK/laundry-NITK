@@ -15,7 +15,7 @@ class CustomerDetailsSerializer(serializers.ModelSerializer):
 class CustomerLaundryDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerLaundryDetails
-        fields = ['custmer','dateGiven','item','datePickup','quantity']
+        fields = ['customer','dateGiven','item','datePickup','quantity']
 
 class TrackingProgressSerializer(serializers.ModelSerializer):
     class Meta:

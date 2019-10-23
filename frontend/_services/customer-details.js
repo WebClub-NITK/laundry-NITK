@@ -33,4 +33,4 @@ class customerDetails{
 
 }
 const b = new customerDetails();
-export default b; 
+export default b;

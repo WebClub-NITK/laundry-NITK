@@ -18,7 +18,7 @@ class CustomerLaundryDetails(models.Model):
     customer = models.ForeignKey(CustomerDetails,on_delete=models.CASCADE,default=None)
     dateGiven = models.DateTimeField(auto_now_add=True)
     item = models.ForeignKey(ItemDetails,on_delete=models.CASCADE,default=None)
-    datePickup = models.DateTimeField(default=None)
+    datePickup = models.DateTimeField(null=True,blank=True)
     quantity = models.IntegerField()
 
 class TrackingProgress(models.Model):
