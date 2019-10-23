@@ -10,7 +10,7 @@ const studentProfileScreen = props => {
           <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>Adarsh profile Naidu</Text>
+              <Text style={styles.name}>Adarsh Naidu</Text>
                 <Text style={styles.description}>
                  #mt3 c315, Block 3
                 </Text>

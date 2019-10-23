@@ -143,7 +143,7 @@ class customerLogin extends React.Component {
                                                 console.log("google");
                                                 this.customerLogin();
                                             }}
-                                            title="Submiit"
+                                            title="Submit"
                                         />
 
                                     </View>
@@ -184,10 +184,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
     containerView: {
         flex: 1,
+        padding: 20
     },
     loginScreenContainer: {
         flex: 1,
@@ -206,10 +207,9 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         flex: 1,
-        justifyContent: 'center',
         backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     innerContainer: {
         alignItems: 'center',
