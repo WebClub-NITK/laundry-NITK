@@ -4,32 +4,41 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView, Image, Touchable
 
 class studentProfileScreen extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        profileData:{}
-      }
+    super(props);
+    this.state = {
+      profileData: {}
+    }
   }
-  render(){
-    console.log( this.props.navigation.state.params );
-    this.state.profileData=this.props.navigation.state.params;
+  render() {
+    console.log(this.props.navigation.state.params);
+    this.state.profileData = this.props.navigation.state.params;
 
 
-    return(
+    return (
       <View style={styles.container}>
-      <View style={styles.header}></View>
-      <Image style={styles.avatar} source={{ uri: this.state.profileData.profilePic}} />
-      <View style={styles.body}>
-        <View style={styles.bodyContent}>
-          <Text style={styles.name}>{this.state.profileData.name}</Text>
-          <Text style={styles.description}>
-            {this.state.profileData.blockNo}
-                </Text>
-          <TouchableOpacity style={styles.buttonContainer}>
-            <Text style={{ color: 'white' }}>Logout</Text>
-          </TouchableOpacity>
+        <View style={styles.header}></View>
+        <Image style={styles.avatar} source={{ uri: this.state.profileData.profilePic }} />
+        <View style={styles.body}>
+          <View style={styles.bodyContent}>
+            <Text style={styles.name}>{this.state.profileData.name}</Text>
+            <Text style={styles.description}>
+              {this.state.profileData.blockNo}
+            </Text>
+            <Text style={styles.description}>
+              {"Room Number  " + this.state.profileData.roomNo}
+            </Text>
+            <Text style={styles.description}>
+              {this.state.profileData.email}
+            </Text>
+            <Text style={styles.description}>
+              {this.state.profileData.phoneNo}
+            </Text>
+            <TouchableOpacity style={styles.buttonContainer}>
+              <Text style={{ color: 'white' }}>Logout</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
     );
   }
 }

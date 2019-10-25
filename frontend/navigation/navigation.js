@@ -7,6 +7,7 @@ import currentLaundryScreen from '../screens/customer/current-laundry';
 import historyLaundryScreen from '../screens/customer/history-laundry';
 //admin routes
 import adminHome from '../screens/admin/home';
+import notification from '../screens/admin/notify';
 //login route
 import loginScreen from '../screens/login-screen';
 
@@ -34,7 +35,7 @@ const customerBottomTabNavigator = createBottomTabNavigator({
 
 const adminBottomTabNavigator = createBottomTabNavigator({
   Laundry: adminHome,
-  Notify: studentProfileScreen
+  Notify: notification
 },
   {
     defaultNavigationOptions: () => ({}),

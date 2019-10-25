@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer } from 'react-navigation';
@@ -42,7 +42,7 @@ class adminHome extends React.Component {
                 key: "asdasd"
             }],
             modalVisible: false,
-            key:""
+            key: ""
 
         }
     }
@@ -56,27 +56,34 @@ class adminHome extends React.Component {
     }
 
     componentDidMount() {
-        this._isMounted = true
+        this._isMounted = true;
     }
     componentWillUnmount() {
         this._isMounted = false
     }
 
     getCustomerProfile() {
-        // if (this.state.roomno != "" && this.state.blockno != "") {
-        //     customerDetailService.getCustomerProfile(this.state.roomno, this.state.blockno).then((res) => {
-        //         console.log("post request successfull");
-        //         console.log(res)
-        //         // this.makeModalVisible(true);
-        //     }).catch((e) => {
-        //         console.log("here")
-        //         console.log(e);
-        //     });
-        // }
+        if (this.state.roomno != "" && this.state.blockno != "") {
+            customerDetailService.getCustomerProfile(this.state.roomno, this.state.blockno).then(res => {
+                res.json().then(dataa => {
+                    console.log(dataa);
+                    console.log("key is here");
+                    console.log(this._isMounted);
+                    if (this._isMounted) {
+                        this.setState({ data: dataa });
+                        this.setState({ modalVisible: true });
+
+                    }
+                    // this.state.data=dataa;
+                })
+            })
+
+        }
+
         this.selectedCustomerKey("asdfasdf");
 
 
-       
+
     }
     selectedCustomerKey(key) {
         // console.log(key);
@@ -87,7 +94,7 @@ class adminHome extends React.Component {
             <TouchableWithoutFeedback onPress={(event) => this.selectedCustomerKey(item.key)}>
                 <View style={styles.flatview}>
                     <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.email}>{item.profilePic}</Text>
+                    <Text style={styles.email}>uyfytyfy</Text>
                 </View>
             </TouchableWithoutFeedback>
         );
@@ -153,7 +160,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 50,
-        width: 300
+        width: 300,
+        backgroundColor: 'white'
     },
 })
 

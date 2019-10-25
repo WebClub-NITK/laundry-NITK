@@ -89,6 +89,7 @@ class enterCustomerLaundry(APIView):
 class getToken(APIView):
 
     def post(self, request, format=None):
+        print(request.body)
         data = json.loads(str(request.body, encoding='utf-8'))
         blockNo = data["blockNo"]
         roomNo = data["roomNo"]
