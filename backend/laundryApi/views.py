@@ -24,6 +24,9 @@ class customerDetails(APIView):
         json_data = json.loads(str(request.body, encoding='utf-8'))
         print(json_data)
         serializer = CustomerDetailsSerializer(data=json_data)
+        obj = CustomerDetails.objects.filter(key = json_data["key"])
+        if len(obj)>0:
+            return Response(status=status.HTTP_201_CREATED)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -46,7 +49,8 @@ class retreiveCustomerLaundry(APIView):
 
     def post(self, request, format=None):
         # try:
-        key = request.data.get('key')
+        data = json.loads(str(request.body, encoding='utf-8'))
+        key = data["key"]
         # print(key)
         customer = CustomerDetails.objects.get(key = key)
         laundry = CustomerLaundryDetails.objects.filter(customer = customer)
@@ -62,11 +66,12 @@ class enterCustomerLaundry(APIView):
 
     def post(self, request, format=None):
         try:
-            key = request.data.get('key')
+            data = json.loads(str(request.body, encoding='utf-8'))
+            key = data["key"]
             # print(key)
             customer = CustomerDetails.objects.get(key = key)
-            print(request.data.get('quantity'))
-            dic = json.dumps(request.data.get('quantity'))
+            # print(request.data.get('quantity'))
+            dic = json.dumps(data["quantity"])
             dic = json.loads(dic)
             print(dic)
             for x in dic:
@@ -84,8 +89,9 @@ class enterCustomerLaundry(APIView):
 class getToken(APIView):
 
     def post(self, request, format=None):
-        blockNo = request.data.get('blockNo')
-        roomNo = request.data.get('roomNo')
+        data = json.loads(str(request.body, encoding='utf-8'))
+        blockNo = data["blockNo"]
+        roomNo = data["roomNo"]
         objs = CustomerDetails.objects.filter(blockNo=blockNo).filter(roomNo=roomNo)
         data=[]
         for obj in objs :
