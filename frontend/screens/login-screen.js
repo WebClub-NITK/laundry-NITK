@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet,} from 'react-native';
+import { Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet, } from 'react-native';
 import { Button } from 'react-native-elements';
 import * as Google from 'expo-google-app-auth';
 import Modal from "react-native-modal";
 import customerDetailService from '../_services/customer-details';
+import { Dropdown } from 'react-native-material-dropdown';
 
 class customerLogin extends React.Component {
     constructor(props) {
@@ -13,7 +14,21 @@ class customerLogin extends React.Component {
             blockno: "",
             roomno: "",
             phoneno: " ",
-            result: {}
+            result: {},
+            roomNoData: [{
+                value: '1',
+            }, {
+                value: '2',
+            }, {
+                value: '3',
+            }],
+            blockNoData: [{
+                value: "8th block",
+            }, {
+                value: 'Mega Towers 1',
+            }, {
+                value: '3rd Block',
+            }]
         }
     }
 
@@ -27,7 +42,7 @@ class customerLogin extends React.Component {
         try {
 
             const result = {
-                type:'success',
+                type: 'success',
                 user: {
                     name: "manan poddar",
                     key: "107682254345676540759",
@@ -72,23 +87,23 @@ class customerLogin extends React.Component {
             key: authApiResult.key,
             email: authApiResult.email,
             phoneNo: this.state.phoneno,
-            
-           
-        
+
+
+
             profilePic: authApiResult.profile
         }
         console.log(customerData);
-        
 
-        customerDetailService.postCustomerDetails(customerData).then((res)=>{
-                console.log("post request successfull");
-                console.log(res)
-        }).catch((e)=>{
+
+        customerDetailService.postCustomerDetails(customerData).then((res) => {
+            console.log("post request successfull");
+            console.log(res)
+        }).catch((e) => {
             console.log("here")
             console.log(e);
         });
 
-        this.setState({modalVisible: false}, () => this.props.navigation.navigate('customerHome',customerData));
+        this.setState({ modalVisible: false }, () => this.props.navigation.navigate('customerHome', customerData));
 
 
     }
@@ -109,33 +124,35 @@ class customerLogin extends React.Component {
                             <Modal animationType={"slide"} transparent={true}
                                 isVisible={this.state.modalVisible}
                                 onNavigate={this.customerLogin}
-                                >
+                                onRequestClose={() => { this.setState({ modalVisible: false }); console.log("request") }}
+                            >
 
                                 <View style={styles.modalContainer}>
-                                    <View style={styles.innerContainer}>
-                                        <Text>Enter Your Block Number :</Text>
-                                        <TextInput
-                                            onChangeText={(blockno) => this.setState({ blockno })}
-                                            value={this.state.blockno}
-                                            placeholder={"Block Number"}
+                                    <View>
+
+                                        <Dropdown onChangeText={(blockno) => {
+                                            this.setState({ blockno });
+                                        }
+                                        }
+                                            label='Block'
+                                            data={this.state.blockNoData}
                                         />
-
-                                        <Text>Enter Your Block Number :</Text>
-
-                                        <TextInput
-                                            onChangeText={(roomno) => this.setState({ roomno })}
-                                            value={this.state.roomno}
-                                            placeholder={"Room Number"}
+                                        <Dropdown onChangeText={(roomno) => {
+                                            this.setState({ roomno });
+                                        }
+                                        }
+                                            label='Room Number'
+                                            data={this.state.roomNoData}
                                         />
-
-
                                         <Text>Enter Your Phone Number :</Text>
 
                                         <TextInput
                                             onChangeText={(phoneno) => this.setState({ phoneno })}
                                             value={this.state.phoneno}
-                                            placeholder={"Phone Number"}
+                                            placeholder={'Phone Number'}
+                                            keyboardType={'phone-pad'}
                                         />
+
 
                                         <Button
                                             buttonStyle={styles.googleLoginButton}
@@ -143,7 +160,7 @@ class customerLogin extends React.Component {
                                                 console.log("google");
                                                 this.customerLogin();
                                             }}
-                                            title="Submiit"
+                                            title="Submit"
                                         />
 
                                     </View>

@@ -2,7 +2,7 @@ import apiUrl from '../environment';
 class customerDetails{
 
         postCustomerDetails(customerDetail) {
-            var path = apiUrl+"/customerDetails";
+            var path = apiUrl+"/customerDetails/";
             customerDetails = JSON.stringify(customerDetail);
             return fetch(path, {
                 method: "POST",//Request Type 
@@ -15,7 +15,7 @@ class customerDetails{
         }
 
         getCustomerProfile(roomno,blockno){
-            var path = apiUrl+"/";
+            var path = apiUrl+"/getToken/";
             data={
                 roomno:roomno,
                 blockno:blockno

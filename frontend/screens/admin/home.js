@@ -7,7 +7,7 @@ import createScreen from '../admin/create'
 import currentLaundryScreen from '../customer/current-laundry';
 import historyLaundryScreen from '../customer/history-laundry';
 import { Dropdown } from 'react-native-material-dropdown';
-import customerDetails from '../../_services/customer-details';
+import customerDetailService from '../../_services/customer-details';
 import Modal from "react-native-modal";
 
 class adminHome extends React.Component {
@@ -39,7 +39,7 @@ class adminHome extends React.Component {
             {
                 profilePic: "asdfasdf",
                 name: "asdf",
-                key: "asdasdf"
+                key: "asdasd"
             }],
             modalVisible: false,
 
@@ -62,18 +62,21 @@ class adminHome extends React.Component {
     }
 
     getCustomerProfile() {
+        if (this.state.roomno != "" && this.state.blockno != "") {
+            customerDetailService.getCustomerProfile(this.state.roomno, this.state.blockno).then((res) => {
+                console.log("post request successfull");
+                console.log(res)
+                // this.makeModalVisible(true);
+            }).catch((e) => {
+                console.log("here")
+                console.log(e);
+            });
+        }
 
-        // customerDetailService.getCustomerProfile(this.state.roomno, this.state.blockno).then((res) => {
-        //     console.log("post request successfull");
-        //     console.log(res)
-        // }).catch((e) => {
-        //     console.log("here")
-        //     console.log(e);
-        // });
 
-        this.makeModalVisible(true);
+       
     }
-    selectedCustomerKey(key){
+    selectedCustomerKey(key) {
         console.log(key);
     }
     _renderList = ({ item }) => {
