@@ -17,8 +17,8 @@ class customerDetails{
         getCustomerProfile(roomno,blockno){
             var path = apiUrl+"/getToken/";
             data={
-                roomno:roomno,
-                blockno:blockno
+                roomNo:roomno,
+                blockNo:blockno
             }
             data = JSON.stringify(data);
             return fetch(path, {

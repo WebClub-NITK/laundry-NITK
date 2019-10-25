@@ -42,6 +42,7 @@ class adminHome extends React.Component {
                 key: "asdasd"
             }],
             modalVisible: false,
+            key:""
 
         }
     }
@@ -62,22 +63,24 @@ class adminHome extends React.Component {
     }
 
     getCustomerProfile() {
-        if (this.state.roomno != "" && this.state.blockno != "") {
-            customerDetailService.getCustomerProfile(this.state.roomno, this.state.blockno).then((res) => {
-                console.log("post request successfull");
-                console.log(res)
-                // this.makeModalVisible(true);
-            }).catch((e) => {
-                console.log("here")
-                console.log(e);
-            });
-        }
+        // if (this.state.roomno != "" && this.state.blockno != "") {
+        //     customerDetailService.getCustomerProfile(this.state.roomno, this.state.blockno).then((res) => {
+        //         console.log("post request successfull");
+        //         console.log(res)
+        //         // this.makeModalVisible(true);
+        //     }).catch((e) => {
+        //         console.log("here")
+        //         console.log(e);
+        //     });
+        // }
+        this.selectedCustomerKey("asdfasdf");
 
 
        
     }
     selectedCustomerKey(key) {
-        console.log(key);
+        // console.log(key);
+        this.state.key = key;
     }
     _renderList = ({ item }) => {
         return (
@@ -132,7 +135,7 @@ class adminHome extends React.Component {
                     />
 
                 </Modal>
-                <TabApp />
+                <TabApp screenProps={this.state.key} />
             </View>
 
         );

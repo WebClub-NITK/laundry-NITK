@@ -87,19 +87,14 @@ class customerLogin extends React.Component {
             key: authApiResult.key,
             email: authApiResult.email,
             phoneNo: this.state.phoneno,
-
-
-
             profilePic: authApiResult.profile
         }
         console.log(customerData);
 
 
         customerDetailService.postCustomerDetails(customerData).then((res) => {
-            console.log("post request successfull");
             console.log(res)
         }).catch((e) => {
-            console.log("here")
             console.log(e);
         });
 
@@ -121,7 +116,7 @@ class customerLogin extends React.Component {
                             <Text style={styles.logoText}>Central Laundry NITK</Text>
 
 
-                            <Modal animationType={"slide"} transparent={true}
+                            <Modal animationType={"slide"} transparent={true} style={styles.modalContainer}
                                 isVisible={this.state.modalVisible}
                                 onNavigate={this.customerLogin}
                                 onRequestClose={() => { this.setState({ modalVisible: false }); console.log("request") }}
@@ -151,6 +146,7 @@ class customerLogin extends React.Component {
                                             value={this.state.phoneno}
                                             placeholder={'Phone Number'}
                                             keyboardType={'phone-pad'}
+                                            style={styles.textInput}
                                         />
 
 
@@ -227,10 +223,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
+        height:10,
+        width:300
     },
-    innerContainer: {
-        alignItems: 'center',
-    },
+    textInput:{
+        height:40,
+        borderColor:'white',
+        borderBottomColor:'grey',
+        borderWidth:1
+    }
 })
 
 export default customerLogin;
