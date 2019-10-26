@@ -16,17 +16,17 @@ class CustomerDetails(models.Model):
 
 class CustomerLaundryDetails(models.Model):
     customer = models.ForeignKey(CustomerDetails,on_delete=models.CASCADE,default=None)
-    dateGiven = models.DateTimeField(auto_now_add=True)
+    dateGiven = models.DateField(auto_now_add=True)
     item = models.ForeignKey(ItemDetails,on_delete=models.CASCADE,default=None)
-    datePickup = models.DateTimeField(null=True,blank=True)
+    datePickup = models.DateField(null=True,blank=True)
     quantity = models.IntegerField()
 
 class TrackingProgress(models.Model):
     customer = models.ForeignKey(CustomerDetails,on_delete=models.CASCADE,default=None)
-    dateGiven = models.DateTimeField(auto_now_add=True)
+    dateGiven = models.DateField(auto_now_add=True)
     readyToPick = models.BooleanField(default=False)
 
 class PaymentDetails(models.Model):
     customer = models.ForeignKey(CustomerDetails,on_delete=models.CASCADE,default=None)
-    dateGiven = models.DateTimeField(auto_now_add=True)
+    dateGiven = models.DateField(auto_now_add=True)
     amount = models.IntegerField()

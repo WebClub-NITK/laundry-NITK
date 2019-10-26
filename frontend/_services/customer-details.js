@@ -14,7 +14,7 @@ class customerDetails{
 
         }
 
-        getCustomerProfile(roomno,blockno){
+        getCustomerProfile=(roomno,blockno)=>{
             var path = apiUrl+"/getToken/";
             data={
                 roomNo:roomno,

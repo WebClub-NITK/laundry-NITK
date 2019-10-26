@@ -49,13 +49,52 @@ class retreiveCustomerLaundry(APIView):
 
     def post(self, request, format=None):
         # try:
+    
         data = json.loads(str(request.body, encoding='utf-8'))
-        key = data["key"]
-        # print(key)
+    
+        key = data
+   
+
         customer = CustomerDetails.objects.get(key = key)
-        laundry = CustomerLaundryDetails.objects.filter(customer = customer)
-        serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
-        return Response(serializer.data)
+        print(customer)
+        laundries = CustomerLaundryDetails.objects.filter(customer = customer)
+        # curr=[]
+        # hist=[]
+ 
+        dic_date=dict()
+        # for obj in laundries :
+        #     if obj.dateGiven not in date:
+        #         date.append(dateGiven)
+        # var = laundries.values('dateGiven').annotate(dateGiven='dateGiven',)
+        # print(var)
+        print(laundries)
+        finalList=[]
+        for obj in laundries:
+            d = str(obj.dateGiven)
+            if d not in dic_date:
+                dic_date[d] = dict()
+                dic_date[d]["amount"]=0
+                dic_date[d]["datePickup"]=str(obj.datePickup)
+                dic_date[d]["lis"]=[]
+                dic_date[d]["dateGiven"]=d
+            dic  = dict()
+            dic["item"] = obj.item.item
+            dic["quantity"] = obj.quantity
+            dic["price"] = obj.item.amount*obj.quantity
+            dic_date[d]["amount"] = dic_date[d]["amount"]+dic["price"]
+            dic_date[d]["lis"].append(dic)
+            print("")
+            print(dic_date)
+            print("")        
+
+        print(dic_date)
+        for x in dic_date:
+            finalList.append(dic_date[x])
+        # serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
+        # print(serializer.data)
+        data = json.dumps(finalList)
+
+        return Response(data)
         # except:
         #     # print("except")
         #     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -67,6 +106,7 @@ class enterCustomerLaundry(APIView):
     def post(self, request, format=None):
         try:
             data = json.loads(str(request.body, encoding='utf-8'))
+            print(data)
             key = data["key"]
             # print(key)
             customer = CustomerDetails.objects.get(key = key)
@@ -77,7 +117,9 @@ class enterCustomerLaundry(APIView):
             for x in dic:
                 if x=="key":
                     continue
-                item = ItemDetails.objects.get(pk = x)
+                if dic[x]==0:
+                    continue
+                item = ItemDetails.objects.get(item = x)
                 obj = CustomerLaundryDetails(customer=customer,item=item,quantity=dic[x])
                 obj.save()
             # serializer = CustomerLaundryDetailsSerializer(laundry, many=True)

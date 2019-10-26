@@ -9,6 +9,7 @@ import historyLaundryScreen from '../customer/history-laundry';
 import { Dropdown } from 'react-native-material-dropdown';
 import customerDetailService from '../../_services/customer-details';
 import Modal from "react-native-modal";
+import customerLaundryDetails from '../../_services/customer-laundry-details';
 
 class adminHome extends React.Component {
     _isMounted = false;
@@ -31,20 +32,13 @@ class adminHome extends React.Component {
             }, {
                 value: '3rd Block',
             }],
-            data: [{
-                profilePic: "asdfasdf",
-                name: "asdf",
-                key: "asdasdf"
-            },
-            {
-                profilePic: "asdfasdf",
-                name: "asdf",
-                key: "asdasd"
-            }],
+            data: [],
             modalVisible: false,
-            key: ""
+            customerKey: "",
+            result: {}
 
         }
+        this._isMounted = false;
     }
 
 
@@ -59,46 +53,79 @@ class adminHome extends React.Component {
         this._isMounted = true;
     }
     componentWillUnmount() {
-        this._isMounted = false
+        this._isMounted = false;
     }
 
     getCustomerProfile() {
         if (this.state.roomno != "" && this.state.blockno != "") {
             customerDetailService.getCustomerProfile(this.state.roomno, this.state.blockno).then(res => {
                 res.json().then(dataa => {
-                    console.log(dataa);
-                    console.log("key is here");
-                    console.log(this._isMounted);
+                    const v1 = JSON.parse(dataa);
                     if (this._isMounted) {
-                        this.setState({ data: dataa });
-                        this.setState({ modalVisible: true });
-
+                        this.setState({ modalVisible: true })
+                        this.setState({ data: v1 });
                     }
-                    // this.state.data=dataa;
                 })
             })
-
         }
-
-        this.selectedCustomerKey("asdfasdf");
 
 
 
     }
     selectedCustomerKey(key) {
         // console.log(key);
-        this.state.key = key;
-    }
-    _renderList = ({ item }) => {
-        return (
-            <TouchableWithoutFeedback onPress={(event) => this.selectedCustomerKey(item.key)}>
-                <View style={styles.flatview}>
-                    <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.email}>uyfytyfy</Text>
-                </View>
-            </TouchableWithoutFeedback>
-        );
+        if (this._isMounted) {
+            this.setState({ customerKey: key });
+            this.setState({ modalVisible: false });
+            customerLaundryDetails.getCustomerLaundry(key).then(res => {
+                res.json().then(data => {
+                    console.log(data)
+                    var curr = [];
+                    var hist = [];
+                    data = JSON.parse(data)
 
+                    data.forEach(function (obj) {
+                        //console.log(obj.id);
+                        if (obj.datePickup === "None") {
+                            curr.push(obj);
+                        }
+                        else {
+                            hist.push(obj);
+                        }
+                    });
+                    result = { "current": curr, "history": hist };
+                    console.log("data");
+                    console.log(result);
+                    // return this.result;
+                    this.setState({result:result});
+                })
+            });
+
+        }
+    }
+    _renderList() {
+        return (
+            this.state.data.map((data) => {
+                console.log(data);
+                return (
+                    <TouchableWithoutFeedback onPress={(event) => this.selectedCustomerKey(data.key)}>
+                        <View>
+                            <Text>{data.name}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                )
+            })
+        )
+    }
+    setBlockNo(blockno) {
+        if (this._isMounted) {
+            this.setState({ blockno });
+        }
+    }
+    setRoomNo(roomno) {
+        if (this._isMounted) {
+            this.setState({ roomno });
+        }
     }
 
     render() {
@@ -113,7 +140,7 @@ class adminHome extends React.Component {
             <View style={styles.container}>
                 <View>
                     <Dropdown onChangeText={(blockno) => {
-                        this.setState({ blockno });
+                        this.setBlockNo(blockno);
                         this.getCustomerProfile();
                     }
                     }
@@ -121,7 +148,7 @@ class adminHome extends React.Component {
                         data={this.state.blockNoData}
                     />
                     <Dropdown onChangeText={(roomno) => {
-                        this.setState({ roomno });
+                        this.setRoomNo(roomno);
                         this.getCustomerProfile();
                     }
                     }
@@ -132,17 +159,13 @@ class adminHome extends React.Component {
                 <Modal animationType={"slide"} transparent={true}
                     isVisible={this.state.modalVisible}
                     onNavigate={this.customerLogin}
-                    onRequestClose={() => { this.setState({ modalVisible: false }); console.log("request") }}
+                    onRequestClose={() => { this.setState({ modalVisible: false }); }}
                 >
-                    <FlatList
-                        data={this.state.data}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={this._renderList}
-                        keyExtractor={item => item.key}
-                    />
+                    <View>{this._renderList()}</View>
+
 
                 </Modal>
-                <TabApp screenProps={this.state.key} />
+                <TabApp screenProps={{ customerKey: this.state.customerKey, result: this.state.result }} />
             </View>
 
         );
