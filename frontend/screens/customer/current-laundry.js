@@ -13,7 +13,9 @@ class currentLaundryScreen extends React.Component {
 
     try {
       console.log("from customer");
-      this.state.customerKey = this.props.navigation.state.params.key;
+      this.state.customerKey = this.props.navigation.state.params;
+      console.log(this.props.navigation.state.params);
+      this.state.currentLaundry = this.props.navigation.state.params.current;
     } catch{
       console.log("from admin");
       this.state.customerKey = this.props.screenProps.customerKey;

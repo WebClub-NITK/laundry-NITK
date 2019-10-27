@@ -5,7 +5,7 @@ import * as Google from 'expo-google-app-auth';
 import Modal from "react-native-modal";
 import customerDetailService from '../_services/customer-details';
 import { Dropdown } from 'react-native-material-dropdown';
-
+import customerLaundryDetails from '../_services/customer-laundry-details';
 class customerLogin extends React.Component {
     constructor(props) {
         super(props);
@@ -78,6 +78,7 @@ class customerLogin extends React.Component {
     }
 
     customerLogin() {
+        var result={};
         var authApiResult = this.state.result.user;
         var customerData = {
             key: authApiResult.id,
@@ -98,7 +99,36 @@ class customerLogin extends React.Component {
             console.log(e);
         });
 
-        this.setState({ modalVisible: false }, () => this.props.navigation.navigate('customerHome', customerData));
+        // console.log(key);
+        console.log(customerData.key)
+        customerLaundryDetails.getCustomerLaundry(customerData.key).then(res => {
+            res.json().then(data => {
+                console.log(data)
+                var curr = [];
+                var hist = [];
+                data = JSON.parse(data)
+
+                data.forEach(function (obj) {
+                    //console.log(obj.id);
+                    if (obj.datePickup === "None") {
+                        curr.push(obj);
+                    }
+                    else {
+                        hist.push(obj);
+                    }
+                });
+                result = { "customerData": customerData, "current": curr, "history": hist };
+          
+
+                console.log("before navigation");
+                console.log(result);
+                this.setState({ modalVisible: false }, () => this.props.navigation.navigate('customerHome', result));
+
+            })
+        });
+
+
+       
 
 
     }
@@ -223,14 +253,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-        height:10,
-        width:300
+        height: 10,
+        width: 300
     },
-    textInput:{
-        height:40,
-        borderColor:'white',
-        borderBottomColor:'grey',
-        borderWidth:1
+    textInput: {
+        height: 40,
+        borderColor: 'white',
+        borderBottomColor: 'grey',
+        borderWidth: 1
     }
 })
 

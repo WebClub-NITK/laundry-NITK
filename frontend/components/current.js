@@ -9,43 +9,21 @@ class Student extends Component {
         console.log(props.screenProps);
         this.state = {
             items: [],
-            customerKey: " "
+            customerKey: " ",
+            amount: " "
         };
-        if (props.screenProps) {
-            // this.state = {
-            //     items: props.screenProps[0].lis,
-            //     customerKey: " "
-            // };
-           
-
-            this.setState({items:props.screenProps[0].lis});
-            console.log("current component");
-            console.log(props.screenProps[0].lis);
-            console.log(this.state.items);
-        }
-
-        try{
+        try {
             this.state.items = this.props.screenProps[0].lis;
+            this.state.amount = this.props.screenProps[0].amount;
         }
         catch{
             console.log("catch");
         }
-     
-
-
-        // if (this.props.screenProps) {
-        //     this.setState({ items: this.props.screenProps.lis });
-        // }
-
 
     }
 
     componentDidMount() {
         this._isMounted = true;
-        // if (this.props.screenProps) {
-        //     this.setState({ items: this.props.screenProps.lis });
-        // }
-
     }
     componentWillUnmount() {
         this._isMounted = false;
@@ -53,23 +31,16 @@ class Student extends Component {
 
     setCurrentLaundry() {
         if (this.props.screenProps) {
-            // this.state.items = this.props.screenProps;
-            // console.log(this.state.items);
             if (this._isMounted) {
                 this.setState({ items: this.props.screenProps.lis });
                 console.log(this.state.items)
             }
-
             this.setState({ items: this.props.screenProps.lis });
-
-
-            // const a = ()=>{this.setState({ items: this.props.screenProps.lis })};
         }
     }
 
 
     render() {
-        // this.setCurrentLaundry();
         console.log(this.state.items);
         return (
 
@@ -120,7 +91,7 @@ class Student extends Component {
                     </View>
                     <View style={styles.confirm}>
                         <TouchableHighlight style={styles.PayBtn}>
-                            <Text style={styles.text}>Pay</Text>
+                            <Text style={styles.text}>Pay{this.state.amount}</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -135,7 +106,7 @@ const styles = StyleSheet.create({
     container: {
         position: 'absolute',
         margin: 'auto',
-        height: 350,
+        height: 'auto',
         justifyContent: "center",
         borderWidth: 0.5,
         borderRadius: 5,

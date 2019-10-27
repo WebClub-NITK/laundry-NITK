@@ -11,7 +11,7 @@ class studentProfileScreen extends React.Component {
   }
   render() {
     console.log(this.props.navigation.state.params);
-    this.state.profileData = this.props.navigation.state.params;
+    this.state.profileData = this.props.navigation.state.params.customerData;
 
 
     return (
