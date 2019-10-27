@@ -47,21 +47,22 @@ class customerDetails(APIView):
 
 class retreiveCustomerLaundry(APIView):
 
-    def post(self, request, format=None):
+    def put(self, request, format=None):
         # try:
-    
+
         data = json.loads(str(request.body, encoding='utf-8'))
-    
-        key = data
-   
+
+        key = data["key"]
+        print(key)
 
         customer = CustomerDetails.objects.get(key = key)
         print(customer)
         laundries = CustomerLaundryDetails.objects.filter(customer = customer)
         # curr=[]
         # hist=[]
- 
-        dic_date=dict()
+
+        dic_date_curr=dict()
+        dic_date_hist=dict()
         # for obj in laundries :
         #     if obj.dateGiven not in date:
         #         date.append(dateGiven)
@@ -70,26 +71,50 @@ class retreiveCustomerLaundry(APIView):
         print(laundries)
         finalList=[]
         for obj in laundries:
-            d = str(obj.dateGiven)
-            if d not in dic_date:
-                dic_date[d] = dict()
-                dic_date[d]["amount"]=0
-                dic_date[d]["datePickup"]=str(obj.datePickup)
-                dic_date[d]["lis"]=[]
-                dic_date[d]["dateGiven"]=d
-            dic  = dict()
-            dic["item"] = obj.item.item
-            dic["quantity"] = obj.quantity
-            dic["price"] = obj.item.amount*obj.quantity
-            dic_date[d]["amount"] = dic_date[d]["amount"]+dic["price"]
-            dic_date[d]["lis"].append(dic)
-            print("")
-            print(dic_date)
-            print("")        
+            date_pickup = str(obj.datePickup)
+            print(date_pickup)
+            if date_pickup == "None":
+                d = str(obj.dateGiven)
+                if d not in dic_date_curr:
 
-        print(dic_date)
-        for x in dic_date:
-            finalList.append(dic_date[x])
+                    dic_date_curr[d] = dict()
+                    dic_date_curr[d]["amount"]=0
+                    dic_date_curr[d]["datePickup"]=str(obj.datePickup)
+                    dic_date_curr[d]["lis"]=[]
+                    dic_date_curr[d]["dateGiven"]=d
+                dic  = dict()
+                dic["item"] = obj.item.item
+                dic["quantity"] = obj.quantity
+                dic["price"] = obj.item.amount*obj.quantity
+                dic_date_curr[d]["amount"] = dic_date_curr[d]["amount"]+dic["price"]
+                dic_date_curr[d]["lis"].append(dic)
+                print("")
+                print(dic_date_curr)
+                print("")
+            else:
+                d = str(obj.dateGiven)
+                if d not in dic_date_hist:
+
+                    dic_date_hist[d] = dict()
+                    dic_date_hist[d]["amount"]=0
+                    dic_date_hist[d]["datePickup"]=str(obj.datePickup)
+                    dic_date_hist[d]["lis"]=[]
+                    dic_date_hist[d]["dateGiven"]=d
+                dic  = dict()
+                dic["item"] = obj.item.item
+                dic["quantity"] = obj.quantity
+                dic["price"] = obj.item.amount*obj.quantity
+                dic_date_hist[d]["amount"] = dic_date_hist[d]["amount"]+dic["price"]
+                dic_date_hist[d]["lis"].append(dic)
+                print("")
+                print(dic_date_hist)
+                print("")
+        print(dic_date_curr)
+        print(dic_date_hist)
+        for x in dic_date_curr:
+            finalList.append(dic_date_curr[x])
+        for x in dic_date_hist:
+            finalList.append(dic_date_hist[x])
         # serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
         # print(serializer.data)
         data = json.dumps(finalList)
@@ -142,6 +167,30 @@ class getToken(APIView):
             dic["key"] = obj.key
             dic["name"] = obj.name
             dic["profilePic"] = obj.profilePic
+            data.append(dic)
+        data = json.dumps(data)
+        print(data)
+        return Response(data,status=status.HTTP_201_CREATED)
+
+class getProfile(APIView):
+
+    def put(self, request, format=None):
+        data = json.loads(str(request.body, encoding='utf-8'))
+        # blockNo = data["blockNo"]
+        # roomNo = data["roomNo"]
+        objs = CustomerLaundryDetails.objects.filter(dateGiven=data["date"])
+        data=[]
+        lis_keys=[]
+        for obj in objs :
+            dic = dict()
+            if obj.key in lis_keys:
+                continue
+            lis_keys.append(obj.key)
+            dic["key"] = obj.key
+            dic["name"] = obj.name
+            dic["profilePic"] = obj.profilePic
+            dic["blockNo"] = obj.blockNo
+            dic["roomNo"] = obj.roomNo
             data.append(dic)
         data = json.dumps(data)
         print(data)
