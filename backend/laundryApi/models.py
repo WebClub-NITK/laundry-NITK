@@ -13,6 +13,7 @@ class CustomerDetails(models.Model):
     email = models.CharField(max_length = 100)
     phoneNo = models.CharField(max_length = 100)
     profilePic =  models.CharField(max_length = 100)
+    pushToken = models.CharField(max_length=100,default="token")
 
 class CustomerLaundryDetails(models.Model):
     customer = models.ForeignKey(CustomerDetails,on_delete=models.CASCADE,default=None)

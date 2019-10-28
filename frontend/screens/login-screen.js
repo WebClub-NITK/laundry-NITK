@@ -6,6 +6,9 @@ import Modal from "react-native-modal";
 import customerDetailService from '../_services/customer-details';
 import { Dropdown } from 'react-native-material-dropdown';
 import customerLaundryDetails from '../_services/customer-laundry-details';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
+
 class customerLogin extends React.Component {
     constructor(props) {
         super(props);
@@ -36,7 +39,29 @@ class customerLogin extends React.Component {
     getRoomBlock = (visible) => {
         this.setState({ modalVisible: visible });
     }
-
+    async pushNotification() {
+        const { status: existingStatus } = await Permissions.getAsync(
+            Permissions.NOTIFICATIONS
+          );
+          let finalStatus = existingStatus;
+        
+          // only ask if permissions have not already been determined, because
+          // iOS won't necessarily prompt the user a second time.
+          if (existingStatus !== 'granted') {
+            // Android remote notification permissions are granted during the app
+            // install, so this will only ask on iOS
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+          }
+        
+          // Stop here if the user did not grant permissions
+          if (finalStatus !== 'granted') {
+            return;
+          }
+        const token = await Notifications.getExpoPushTokenAsync();
+        console.log(token);
+        return token;
+    }
 
     async googleAuth() {
         try {
@@ -57,7 +82,6 @@ class customerLogin extends React.Component {
             // });
 
             if (result.type === 'success') {
-                console.log(result);
                 this.getRoomBlock(true);
                 this.state.result = result;
                 return result.accessToken;
@@ -77,33 +101,10 @@ class customerLogin extends React.Component {
         this.props.navigation.navigate('adminHome');
     }
 
-    customerLogin() {
-        var result={};
-        var authApiResult = this.state.result.user;
-        var customerData = {
-            key: authApiResult.id,
-            roomNo: this.state.roomno,
-            blockNo: this.state.blockno,
-            name: authApiResult.name,
-            key: authApiResult.key,
-            email: authApiResult.email,
-            phoneNo: this.state.phoneno,
-            profilePic: authApiResult.profile
-        }
-        console.log(customerData);
-
-
-        customerDetailService.postCustomerDetails(customerData).then((res) => {
-            console.log(res)
-        }).catch((e) => {
-            console.log(e);
-        });
-
-        // console.log(key);
-        console.log(customerData.key)
+    getCustomerLaundry(customerData) {
+        // console.log(customerData);
         customerLaundryDetails.getCustomerLaundry(customerData.key).then(res => {
             res.json().then(data => {
-                console.log(data)
                 var curr = [];
                 var hist = [];
                 data = JSON.parse(data)
@@ -118,19 +119,37 @@ class customerLogin extends React.Component {
                     }
                 });
                 result = { "customerData": customerData, "current": curr, "history": hist };
-          
-
-                console.log("before navigation");
-                console.log(result);
                 this.setState({ modalVisible: false }, () => this.props.navigation.navigate('customerHome', result));
 
             })
         });
+        // setTimeout(() => {
+        //     console.log("here")
+        // }, 3000);
+    }
 
+    async customerLogin() {
+        var result = {};
+        var authApiResult = this.state.result.user;
+        token = await this.pushNotification();
+        var customerData = {
+            key: authApiResult.id,
+            roomNo: this.state.roomno,
+            blockNo: this.state.blockno,
+            name: authApiResult.name,
+            key: authApiResult.key,
+            email: authApiResult.email,
+            phoneNo: this.state.phoneno,
+            profilePic: authApiResult.profile,
+            pushToken:token
+        }
+        
 
-       
-
-
+        customerDetailService.postCustomerDetails(customerData).then((res) => {
+        }).catch((e) => {
+            console.log(e);
+        });
+        this.getCustomerLaundry(customerData);
     }
 
 
@@ -183,7 +202,6 @@ class customerLogin extends React.Component {
                                         <Button
                                             buttonStyle={styles.googleLoginButton}
                                             onPress={() => {
-                                                console.log("google");
                                                 this.customerLogin();
                                             }}
                                             title="Submit"

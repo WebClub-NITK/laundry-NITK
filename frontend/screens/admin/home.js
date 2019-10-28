@@ -79,7 +79,6 @@ class adminHome extends React.Component {
             this.setState({ modalVisible: false });
             customerLaundryDetails.getCustomerLaundry(key).then(res => {
                 res.json().then(data => {
-                    console.log(data)
                     var curr = [];
                     var hist = [];
                     data = JSON.parse(data)
@@ -94,9 +93,6 @@ class adminHome extends React.Component {
                         }
                     });
                     result = { "current": curr, "history": hist };
-                    console.log("data");
-                    console.log(result);
-                    // return this.result;
                     this.setState({result:result});
                 })
             });
@@ -106,7 +102,6 @@ class adminHome extends React.Component {
     _renderList() {
         return (
             this.state.data.map((data) => {
-                console.log(data);
                 return (
                     <TouchableWithoutFeedback onPress={(event) => this.selectedCustomerKey(data.key)}>
                         <View>
