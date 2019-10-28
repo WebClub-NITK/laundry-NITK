@@ -7,7 +7,7 @@ from laundryApi.models import ItemDetails,CustomerDetails,CustomerLaundryDetails
 from laundryApi.serializers import ItemDetailsSerializer,CustomerDetailsSerializer,CustomerLaundryDetailsSerializer
 from laundryApi.serializers import TrackingProgressSerializer,PaymentDetailsSerializer
 import json
-
+import datetime
 # Create your views here.
 
 
@@ -195,3 +195,14 @@ class getProfile(APIView):
         data = json.dumps(data)
         print(data)
         return Response(data,status=status.HTTP_201_CREATED)
+
+class Payment(APIView):
+
+    def put(self, request, format=None):
+        data = json.loads(str(request.body, encoding='utf-8'))
+        objs = CustomerLaundryDetails.objects.filter(dateGiven=data["date"]).filter(key=data["key"])
+        # date = datetime.datetime.today()
+        for obj in objs :
+            obj.datePickup = datetime.today().strftime('%Y-%m-%d')
+            obj.save()
+        return Response(status=status.HTTP_201_CREATED)
