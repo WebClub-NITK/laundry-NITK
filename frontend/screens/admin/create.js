@@ -14,7 +14,7 @@ class Create extends React.Component {
       bedSheetQty: 0,
       customerKey: ""
     }
-    this.state.customerKey = this.props.screenProps;
+    this.state.customerKey = this.props.screenProps.customerKey;
   }
 
   render() {
@@ -39,10 +39,8 @@ var userLaundry = {
   key: this.state.customerKey
 }
 addCustomerLaundry = () => {
-  if (this.state.userKey != "") {
-    console.log("adding..");
+  if (this.state.customerKey != "") {
     customerLaundryDetails.postCustomerLaundry(userLaundry).then((res) => {
-      console.log(res)
     }).catch((e) => {
       console.log(e);
     });

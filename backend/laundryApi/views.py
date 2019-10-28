@@ -7,7 +7,9 @@ from laundryApi.models import ItemDetails,CustomerDetails,CustomerLaundryDetails
 from laundryApi.serializers import ItemDetailsSerializer,CustomerDetailsSerializer,CustomerLaundryDetailsSerializer
 from laundryApi.serializers import TrackingProgressSerializer,PaymentDetailsSerializer
 import json
-
+from datetime import datetime
+from laundryApi.notifications import send_push_message
+# import send_push_message from notifications1
 # Create your views here.
 
 
@@ -20,9 +22,10 @@ class customerDetails(APIView):
 
     def post(self, request, format=None):
 # <<<<<<< Updated upstream
-        print(request.body)
+        # print(request.body)
         json_data = json.loads(str(request.body, encoding='utf-8'))
-        print(json_data)
+        print(json_data["pushToken"])
+        print(type(json_data["pushToken"]))
         serializer = CustomerDetailsSerializer(data=json_data)
         obj = CustomerDetails.objects.filter(key = json_data["key"])
         if len(obj)>0:
@@ -47,16 +50,16 @@ class customerDetails(APIView):
 
 class retreiveCustomerLaundry(APIView):
 
-    def put(self, request, format=None):
+    def post(self, request, format=None):
         # try:
 
         data = json.loads(str(request.body, encoding='utf-8'))
 
         key = data["key"]
-        print(key)
+        # print(key)
 
         customer = CustomerDetails.objects.get(key = key)
-        print(customer)
+        # print(customer)
         laundries = CustomerLaundryDetails.objects.filter(customer = customer)
         # curr=[]
         # hist=[]
@@ -68,11 +71,11 @@ class retreiveCustomerLaundry(APIView):
         #         date.append(dateGiven)
         # var = laundries.values('dateGiven').annotate(dateGiven='dateGiven',)
         # print(var)
-        print(laundries)
+        # print(laundries)
         finalList=[]
         for obj in laundries:
             date_pickup = str(obj.datePickup)
-            print(date_pickup)
+            # print(date_pickup)
             if date_pickup == "None":
                 d = str(obj.dateGiven)
                 if d not in dic_date_curr:
@@ -88,9 +91,9 @@ class retreiveCustomerLaundry(APIView):
                 dic["price"] = obj.item.amount*obj.quantity
                 dic_date_curr[d]["amount"] = dic_date_curr[d]["amount"]+dic["price"]
                 dic_date_curr[d]["lis"].append(dic)
-                print("")
-                print(dic_date_curr)
-                print("")
+                # print("")
+                # print(dic_date_curr)
+                # print("")
             else:
                 d = str(obj.dateGiven)
                 if d not in dic_date_hist:
@@ -106,11 +109,11 @@ class retreiveCustomerLaundry(APIView):
                 dic["price"] = obj.item.amount*obj.quantity
                 dic_date_hist[d]["amount"] = dic_date_hist[d]["amount"]+dic["price"]
                 dic_date_hist[d]["lis"].append(dic)
-                print("")
-                print(dic_date_hist)
-                print("")
-        print(dic_date_curr)
-        print(dic_date_hist)
+        #         print("")
+        #         print(dic_date_hist)
+        #         print("")
+        # print(dic_date_curr)
+        # print(dic_date_hist)
         for x in dic_date_curr:
             finalList.append(dic_date_curr[x])
         for x in dic_date_hist:
@@ -133,8 +136,10 @@ class enterCustomerLaundry(APIView):
             data = json.loads(str(request.body, encoding='utf-8'))
             print(data)
             key = data["key"]
-            # print(key)
+            print(key)
             customer = CustomerDetails.objects.get(key = key)
+            pushToken = customer.pushToken
+            send_push_message(pushToken,"your laundry is added")
             # print(request.data.get('quantity'))
             dic = json.dumps(data["quantity"])
             dic = json.loads(dic)
@@ -195,3 +200,17 @@ class getProfile(APIView):
         data = json.dumps(data)
         print(data)
         return Response(data,status=status.HTTP_201_CREATED)
+
+class Payment(APIView):
+
+    def post(self, request, format=None):
+    
+        data = json.loads(str(request.body, encoding='utf-8'))
+        print(data)
+        customer = CustomerDetails.objects.get(key=data["key"])
+        objs = CustomerLaundryDetails.objects.filter(dateGiven=data["date"]).filter(customer=customer)
+        # date = datetime.datetime.today()
+        for obj in objs :
+            obj.datePickup = datetime.today().strftime('%Y-%m-%d')
+            obj.save()
+        return Response(status=status.HTTP_201_CREATED)

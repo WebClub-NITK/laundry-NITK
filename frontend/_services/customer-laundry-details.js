@@ -17,13 +17,15 @@ class customerLaundryDetails{
 
 
         getCustomerLaundry(key) {
-            console.log("get Customer laundry")
-            console.log(key);
+     
             var path = apiUrl+"/retreiveCustomerLaundry/";
-            key = JSON.stringify(key);
+            data ={
+                key:key
+            }
+            data = JSON.stringify(data);
             return fetch(path, {
                 method: "POST",//Request Type
-                body: key,//post body
+                body: data,//post body
                 headers: {//Header Definition
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                 },
@@ -37,6 +39,18 @@ class customerLaundryDetails{
             return this.result.history;
         }
 
+        setDatePickup(data){
+            path = apiUrl+"/payment/";
+            data = data;
+            data = JSON.stringify(data);
+            return fetch(path, {
+                method: "POST",//Request Type
+                body: data,//post body
+                headers: {//Header Definition
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+            })
+        }
 
 
 }
