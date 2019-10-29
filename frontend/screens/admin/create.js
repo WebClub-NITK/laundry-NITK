@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, Image, TouchableOpacity, TouchableHighlight, ScorllView } from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import customerLaundryDetails from '../../_services/customer-laundry-details';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-root-toast';
 class Create extends React.Component {
   customerLaundryData = {};
   constructor(props) {
@@ -12,7 +14,9 @@ class Create extends React.Component {
       tshirtQty: 0,
       towelQty: 0,
       bedSheetQty: 0,
-      customerKey: ""
+      customerKey: "",
+      spinner: false,
+      toast: false
     }
     this.state.customerKey = this.props.screenProps.customerKey;
   }
@@ -20,143 +24,171 @@ class Create extends React.Component {
   render() {
 
 
-  
 
-const { shirtQty } = this.state.shirtQty;
-const { trouserQty } = this.state.trouserQty;
-const { tshirtQty } = this.state.tshirtQty;
-const { towelQty } = this.state.towelQty;
-const { bedSheetQty } = this.state.bedSheetQty;
 
-var userLaundry = {
-  quantity: {
-    shirt: this.state.shirtQty,
-    trouser: this.state.trouserQty,
-    tshirt: this.state.tshirtQty,
-    towel: this.state.towelQty,
-    bedSheet: this.state.bedSheetQty
-  },
-  key: this.state.customerKey
-}
-addCustomerLaundry = () => {
-  if (this.state.customerKey != "") {
-    customerLaundryDetails.postCustomerLaundry(userLaundry).then((res) => {
-    }).catch((e) => {
-      console.log(e);
-    });
-  }
-}
+    const { shirtQty } = this.state.shirtQty;
+    const { trouserQty } = this.state.trouserQty;
+    const { tshirtQty } = this.state.tshirtQty;
+    const { towelQty } = this.state.towelQty;
+    const { bedSheetQty } = this.state.bedSheetQty;
 
-return (
-  <View style={styles.container}>
-    <ScrollView>
-      <View style={styles.elements}>
-        <Text>Shirt</Text>
-        <NumericInput
-          value={shirtQty}
-          onChange={shirtQty => this.setState({
-            shirtQty
-          })}
-          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-          totalWidth={100}
-          totalHeight={40}
-          iconSize={25}
-          step={1}
-          valueType='real'
-          rounded
-          textColor='#000000'
-          iconStyle={{ color: 'white' }}
-          rightButtonBackgroundColor='#00bfff'
-          leftButtonBackgroundColor='#00bfff' />
-      </View>
-      <View style={styles.elements}>
-        <Text>Trouser</Text>
-        <NumericInput
-          value={trouserQty}
-          onChange={trouserQty => this.setState({
-            trouserQty
-          })}
-          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-          totalWidth={100}
-          totalHeight={40}
-          iconSize={25}
-          step={1}
-          valueType='real'
-          rounded
-          textColor='#000000'
-          iconStyle={{ color: 'white' }}
-          rightButtonBackgroundColor='#00bfff'
-          leftButtonBackgroundColor='#00bfff' />
-      </View>
-      <View style={styles.elements}>
-        <Text>T-Shirt</Text>
-        <NumericInput
-          value={tshirtQty}
-          onChange={tshirtQty => this.setState({
-            tshirtQty
-          })}
-          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-          totalWidth={100}
-          totalHeight={40}
-          iconSize={25}
-          step={1}
-          valueType='real'
-          rounded
-          textColor='#000000'
-          iconStyle={{ color: 'white' }}
-          rightButtonBackgroundColor='#00bfff'
-          leftButtonBackgroundColor='#00bfff' />
-      </View>
+    var userLaundry = {
+      quantity: {
+        shirt: this.state.shirtQty,
+        trouser: this.state.trouserQty,
+        tshirt: this.state.tshirtQty,
+        towel: this.state.towelQty,
+        bedSheet: this.state.bedSheetQty
+      },
+      key: this.state.customerKey
+    }
+    addCustomerLaundry = () => {
+      if (this.state.customerKey != "") {
+        this.setState({ spinner: true })
+        customerLaundryDetails.postCustomerLaundry(userLaundry).then((res) => {
+          this.setState({toastMessage:"Laundry is Successfully Added"})
+          this.setState({ spinner: false });
+          this.setState({ toast: true });
+          setTimeout(() => this.setState({
+            toast: false
+          }), 2000); // hide toast after 5s
+        }).catch((e) => {
+          console.log(e);
+        });
+      }
+      else {
+        this.setState({toastMessage:"Please Select Block and Room Number"})
+        this.setState({ toast: true });
+        setTimeout(() => this.setState({
+          toast: false
+        }), 2000); // hide toast after 5s
+      }
+    }
 
-      <View style={styles.elements}>
-        <Text>Towel</Text>
-        <NumericInput
-          value={towelQty}
-          onChange={towelQty => this.setState({
-            towelQty
-          })}
-          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-          totalWidth={100}
-          totalHeight={40}
-          iconSize={25}
-          step={1}
-          valueType='real'
-          rounded
-          textColor='#000000'
-          iconStyle={{ color: 'white' }}
-          rightButtonBackgroundColor='#00bfff'
-          leftButtonBackgroundColor='#00bfff' />
-      </View>
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={styles.elements}>
+            <Text>Shirt</Text>
+            <NumericInput
+              value={shirtQty}
+              onChange={shirtQty => this.setState({
+                shirtQty
+              })}
+              onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+              totalWidth={100}
+              totalHeight={40}
+              iconSize={25}
+              step={1}
+              valueType='real'
+              rounded
+              textColor='#000000'
+              iconStyle={{ color: 'white' }}
+              rightButtonBackgroundColor='black'
+              leftButtonBackgroundColor='black' />
+          </View>
+          <View style={styles.elements}>
+            <Text>Trouser</Text>
+            <NumericInput
+              value={trouserQty}
+              onChange={trouserQty => this.setState({
+                trouserQty
+              })}
+              onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+              totalWidth={100}
+              totalHeight={40}
+              iconSize={25}
+              step={1}
+              valueType='real'
+              rounded
+              textColor='#000000'
+              iconStyle={{ color: 'white' }}
+              rightButtonBackgroundColor='black'
+              leftButtonBackgroundColor='black' />
+          </View>
+          <View style={styles.elements}>
+            <Text>T-Shirt</Text>
+            <NumericInput
+              value={tshirtQty}
+              onChange={tshirtQty => this.setState({
+                tshirtQty
+              })}
+              onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+              totalWidth={100}
+              totalHeight={40}
+              iconSize={25}
+              step={1}
+              valueType='real'
+              rounded
+              textColor='#000000'
+              iconStyle={{ color: 'white' }}
+              rightButtonBackgroundColor='black'
+              leftButtonBackgroundColor='black' />
+          </View>
 
-      <View style={styles.elements}>
-        <Text>BedSheet</Text>
-        <NumericInput
-          value={bedSheetQty}
-          onChange={bedSheetQty => this.setState({
-            bedSheetQty
-          })}
-          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-          totalWidth={100}
-          totalHeight={40}
-          iconSize={25}
-          step={1}
-          valueType='real'
-          rounded
-          textColor='#000000'
-          iconStyle={{ color: 'white' }}
-          rightButtonBackgroundColor='#00bfff'
-          leftButtonBackgroundColor='#00bfff' />
+          <View style={styles.elements}>
+            <Text>Towel</Text>
+            <NumericInput
+              value={towelQty}
+              onChange={towelQty => this.setState({
+                towelQty
+              })}
+              onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+              totalWidth={100}
+              totalHeight={40}
+              iconSize={25}
+              step={1}
+              valueType='real'
+              rounded
+              textColor='#000000'
+              iconStyle={{ color: 'white' }}
+              rightButtonBackgroundColor='black'
+              leftButtonBackgroundColor='black' />
+          </View>
+
+          <View style={styles.elements}>
+            <Text>BedSheet</Text>
+            <NumericInput
+              value={bedSheetQty}
+              onChange={bedSheetQty => this.setState({
+                bedSheetQty
+              })}
+              onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+              totalWidth={100}
+              totalHeight={40}
+              iconSize={25}
+              step={1}
+              valueType='real'
+              rounded
+              textColor='#000000'
+              iconStyle={{ color: 'white' }}
+              rightButtonBackgroundColor='black'
+              leftButtonBackgroundColor='black' />
+          </View>
+          <View style={styles.Btn}>
+            <TouchableHighlight style={styles.endBtn} onPress={() => {
+              addCustomerLaundry();
+            }}>
+              <Text style={styles.text}>Add</Text>
+            </TouchableHighlight>
+            <Spinner
+              visible={this.state.spinner}
+              textContent={''}
+              textStyle={styles.spinnerTextStyle}
+              color="black"
+              size="large"
+            />
+            <Toast
+              visible={this.state.toast}
+              position={50}
+              shadow={false}
+              animation={false}
+              hideOnPress={true}
+            >{this.state.toastMessage}</Toast>
+          </View>
+        </ScrollView>
       </View>
-      <View style={styles.Btn}>
-        <TouchableHighlight style={styles.endBtn} onPress={() => {
-          addCustomerLaundry();
-        }}>
-          <Text style={styles.text}>Done</Text>
-        </TouchableHighlight>
-      </View>
-    </ScrollView>
-  </View>
-);
+    );
   }
 }
 const styles = StyleSheet.create({
@@ -227,9 +259,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   endBtn: {
-    alignItems: 'center',
-    backgroundColor: '#8fbc8f',
-    padding: 10,
+    alignItems: "center",
+    marginTop: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
+    marginLeft: 30,
+    marginRight: 30,
+    backgroundColor: 'black',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#fff'
   },
   container: {
     margin: 10,
@@ -237,7 +276,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    color: 'white'
+    color: '#DDD'
   }
 });
 export default Create;

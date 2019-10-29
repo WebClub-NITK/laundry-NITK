@@ -7,13 +7,9 @@ from laundryApi.models import ItemDetails,CustomerDetails,CustomerLaundryDetails
 from laundryApi.serializers import ItemDetailsSerializer,CustomerDetailsSerializer,CustomerLaundryDetailsSerializer
 from laundryApi.serializers import TrackingProgressSerializer,PaymentDetailsSerializer
 import json
-<<<<<<< HEAD
-import datetime
-=======
 from datetime import datetime
 from laundryApi.notifications import send_push_message
 # import send_push_message from notifications1
->>>>>>> 0ed73bd7857ef3b7581608b24ab76b9bc1b7d6c2
 # Create your views here.
 
 
@@ -155,6 +151,9 @@ class enterCustomerLaundry(APIView):
                     continue
                 item = ItemDetails.objects.get(item = x)
                 obj = CustomerLaundryDetails(customer=customer,item=item,quantity=dic[x])
+                print(obj.customer)
+                print(obj.item)
+                print(obj.quantity)
                 obj.save()
             # serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
             return Response(status=status.HTTP_201_CREATED)
@@ -181,29 +180,75 @@ class getToken(APIView):
         print(data)
         return Response(data,status=status.HTTP_201_CREATED)
 
-class getProfile(APIView):
+class getProfileForNotification(APIView):
 
-    def put(self, request, format=None):
+    def post(self, request, format=None):
         data = json.loads(str(request.body, encoding='utf-8'))
-        # blockNo = data["blockNo"]
-        # roomNo = data["roomNo"]
-        objs = CustomerLaundryDetails.objects.filter(dateGiven=data["date"])
-        data=[]
-        lis_keys=[]
-        for obj in objs :
-            dic = dict()
-            if obj.key in lis_keys:
-                continue
-            lis_keys.append(obj.key)
-            dic["key"] = obj.key
-            dic["name"] = obj.name
-            dic["profilePic"] = obj.profilePic
-            dic["blockNo"] = obj.blockNo
-            dic["roomNo"] = obj.roomNo
-            data.append(dic)
-        data = json.dumps(data)
+
+        date = data["date"]
+        # key = data["key"]
+        # print(key)
+        print(date)
+        # customer = CustomerDetails.objects.get(key = key)
+        # print(customer)
+        laundries = CustomerLaundryDetails.objects.filter(dateGiven = date)
+        # curr=[]
+        # hist=[]
+
+        dic_date_curr=dict()
+        dic_date_hist=dict()
+        # for obj in laundries :
+        #     if obj.dateGiven not in date:
+        #         date.append(dateGiven)
+        # var = laundries.values('dateGiven').annotate(dateGiven='dateGiven',)
+        # print(var)
+        # print(laundries)
+        finalList=[]
+        for obj in laundries:
+            date_pickup = str(obj.datePickup)
+            # print(date_pickup)
+            if date_pickup == "None":
+                d = str(obj.dateGiven)
+                if d not in dic_date_curr:
+                    dic_date_curr[d] = dict() 
+                    dic_date_curr[d][obj.customer.key] = dict()
+                    # dic_date_curr[d]["amount"]=0
+                    # dic_date_curr[d]["datePickup"]=str(obj.datePickup)
+                    dic_date_curr[d][obj.customer.key]["lis"]=[]
+                    dic_date_curr[d][obj.customer.key]["dateGiven"]=d
+                    # dic_date_curr[d][]
+                elif obj.customer.key not in dic_date_curr[d]:
+                    dic_date_curr[d][obj.customer.key] = dict()
+                    dic_date_curr[d][obj.customer.key]["dateGiven"]=d
+                    # dic_date_curr[d]["amount"]=0
+                    # dic_date_curr[d]["datePickup"]=str(obj.datePickup)
+                    dic_date_curr[d][obj.customer.key]["lis"]=[]
+                dic  = dict()
+                dic["item"] = obj.item.item
+                dic["quantity"] = obj.quantity
+                dic["price"] = obj.item.amount*obj.quantity
+                # dic_date_curr[d]["amount"] = dic_date_curr[d]["amount"]+dic["price"]
+                dic_date_curr[d][obj.customer.key]["lis"].append(dic)
+                # print("")
+                # print(dic_date_curr)
+                # print("")
+            
+        #         print("")
+        #         print(dic_date_hist)
+        #         print("")
+        # print(dic_date_curr)
+        # print(dic_date_hist)
+        for x in dic_date_curr:
+            for y in dic_date_curr[x]:
+                dic = dic_date_curr[x][y]
+                dic["key"]=y
+                finalList.append(dic)
+        
+        # serializer = CustomerLaundryDetailsSerializer(laundry, many=True)
+        # print(serializer.data)
+        data = json.dumps(finalList)
         print(data)
-        return Response(data,status=status.HTTP_201_CREATED)
+        return Response(data)
 
 class Payment(APIView):
 
@@ -212,9 +257,28 @@ class Payment(APIView):
         data = json.loads(str(request.body, encoding='utf-8'))
         print(data)
         customer = CustomerDetails.objects.get(key=data["key"])
+        TrackingProgress.objects.filter(dateGiven=data["date"]).filter(customer=customer).delete()
+        paymentObj = PaymentDetails(customer=customer,dateGiven=data["date"],amount=data["amount"])
+        paymentObj.save()
         objs = CustomerLaundryDetails.objects.filter(dateGiven=data["date"]).filter(customer=customer)
         # date = datetime.datetime.today()
         for obj in objs :
             obj.datePickup = datetime.today().strftime('%Y-%m-%d')
             obj.save()
         return Response(status=status.HTTP_201_CREATED)
+
+
+class Notify(APIView):
+    def post(self,request,format=None):
+        data = json.loads(str(request.body, encoding='utf-8'))
+        key = data["key"]
+        dateGiven = data["dateGiven"]
+        print(dateGiven)
+        customer = CustomerDetails.objects.get(key = key)
+        pushToken = customer.pushToken
+        send_push_message(pushToken,"your laundry for date "+dateGiven+" is ready")
+        obj = TrackingProgress(customer=customer,dateGiven=dateGiven,readyToPick=True)
+        obj.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+

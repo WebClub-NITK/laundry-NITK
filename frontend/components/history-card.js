@@ -30,56 +30,57 @@ class historyCard extends React.Component {
   }
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        {/* <FlatList> */}
-        <View style={styles.container}>
-          <View style={styles.Date}>
-            <Text>date given : {this.state.params.dateGiven}</Text>
-          </View>
-          <View style={styles.tableView}>
-            <View style={styles.ItemStyle}>
-              <Text>Items</Text>
-              {Object.keys(this.state.items).map((e) => {
 
-                return (
-                  <View key={e} style={styles.itemStyle}>
-                    <Text>{this.state.items[e].item}</Text>
-                  </View>
-                )
-              })}
-            </View>
-            <View style={styles.qtyStyle}>
-              <Text>Qty</Text>
-              {Object.keys(this.state.items).map((e) => {
-                return (
-                  <View key={e} style={styles.itemStyle}>
-                    <Text>{this.state.items[e].quantity}</Text>
-                  </View>
-                )
-              })}
-            </View>
-            <View style={styles.priceStyle}>
-              <Text>Price</Text>
-              {Object.keys(this.state.items).map((e) => {
-                return (
-                  <View key={e} style={styles.itemStyle}>
-                    <Text>{this.state.items[e].price}</Text>
-                  </View>
-                )
-              })}
-            </View>
+      <View style={styles.container}>
+        <View style={styles.Date}>
+          <Text>date given : {this.state.params.dateGiven}</Text>
+        </View>
+        <View style={styles.tableView}>
+          <View style={styles.ItemStyle}>
+            <Text>Items</Text>
+            {Object.keys(this.state.items).map((e) => {
+
+              return (
+                <View key={e} style={styles.itemStyle}>
+                  <Text>{this.state.items[e].item}</Text>
+                </View>
+              )
+            })}
           </View>
-          <View  style={styles.Date}>
-            <Text>
+          <View style={styles.qtyStyle}>
+            <Text>Qty</Text>
+            {Object.keys(this.state.items).map((e) => {
+              return (
+                <View key={e} style={styles.itemStyle}>
+                  <Text>{this.state.items[e].quantity}</Text>
+                </View>
+              )
+            })}
+          </View>
+          <View style={styles.priceStyle}>
+            <Text>Price</Text>
+            {Object.keys(this.state.items).map((e) => {
+              return (
+                <View key={e} style={styles.itemStyle}>
+                  <Text>{this.state.items[e].price}</Text>
+                </View>
+              )
+            })}
+          </View>
+        </View>
+        <View style={styles.strip}>
+          <View style={styles.Date}>
+            <Text style={{color:'#DDD'}}>
               Total Amount : {this.state.params.amount}
             </Text>
           </View>
           <View style={styles.Date}>
-            <Text>date pickup : {this.state.params.datePickup}</Text>
+            <Text  style={{color:'#DDD'}}>date pickup : {this.state.params.datePickup}</Text>
           </View>
         </View>
-        {/* </FlatList> */}
+
       </View>
+
 
 
 
@@ -91,15 +92,17 @@ class historyCard extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    margin: 'auto',
+    position: 'relative',
+    margin: 2,
     height: 'auto',
     justifyContent: "center",
     borderWidth: 0.5,
     borderRadius: 5,
     top: 10,
     left: 10,
-    right: 10
+    right: 10,
+    bottom: 30,
+    width: 300
   },
   rule: {
     flex: 1
@@ -164,6 +167,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0
+  },
+  strip:{
+    backgroundColor:'black',
+    color:'white',
+    paddingBottom:10
   }
 })
 

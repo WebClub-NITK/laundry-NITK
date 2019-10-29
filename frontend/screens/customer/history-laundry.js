@@ -34,10 +34,14 @@ class historyLaundryScreen extends React.Component {
 
     if (this.state.historyLaundry) {
       return (
-        <View>{this.renderListofhistoryComponents()}</View>
+        <ScrollView
+          style={{ flex: 1, paddingBottom: 49 }}
+          contentContainerStyle={{ width: '100%', alignItems: 'center',flexGrow:1,paddingBottom:40 }}>
+          <View>{this.renderListofhistoryComponents()}</View>
+        </ScrollView>
       )
 
- 
+
 
 
 
@@ -47,8 +51,8 @@ class historyLaundryScreen extends React.Component {
     else {
       return (
         <View>
-          <Text>
-            you don't have any history laundry
+          <Text style={styles.textStyle}>
+            No laundry here
           </Text>
         </View>
       );
@@ -59,7 +63,17 @@ class historyLaundryScreen extends React.Component {
   }
 }
 
-
+const styles = StyleSheet.create({
+  textStyle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    height: 100,
+    lineHeight: 150
+  },
+})
 
 export default historyLaundryScreen;
 

@@ -14,10 +14,35 @@ import loginScreen from '../screens/login-screen';
 
 const customerBottomTabNavigator = createBottomTabNavigator({
   Home: {
-    screen: createMaterialTopTabNavigator({
-      current: currentLaundryScreen,
-      history: historyLaundryScreen
-    })
+    screen: createMaterialTopTabNavigator(
+      {
+        current: currentLaundryScreen,
+        history: historyLaundryScreen
+      },
+      {
+        tabBarOptions: {
+          activeTintColor: 'white', // not working
+          inactiveTintColor: 'grey', // not working
+          style: {
+            paddingVertical: 6,
+            backgroundColor: 'black',
+            color:"white",
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: -3 },
+            shadowOpacity: 0.13,
+            shadowRadius: 5,
+            elevation: 3,
+          },
+          indicatorStyle: {
+            height: 0
+          },
+          showIcon: true,
+          showLabel: true,
+
+        },
+
+      }
+    )
   },
   Profile: studentProfileScreen
 },
@@ -40,6 +65,7 @@ const adminBottomTabNavigator = createBottomTabNavigator({
   {
     defaultNavigationOptions: () => ({}),
     tabBarOptions: {
+      activeTintColor:'black',
       style: {
         paddingBottom: 15
       }

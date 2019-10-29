@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet, } from 'react-native';
+import { Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet, ActivityIndicator, } from 'react-native';
 import { Button } from 'react-native-elements';
 import * as Google from 'expo-google-app-auth';
 import Modal from "react-native-modal";
@@ -8,7 +8,8 @@ import { Dropdown } from 'react-native-material-dropdown';
 import customerLaundryDetails from '../_services/customer-laundry-details';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
-
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-root-toast';
 class customerLogin extends React.Component {
     constructor(props) {
         super(props);
@@ -31,8 +32,11 @@ class customerLogin extends React.Component {
                 value: 'Mega Towers 1',
             }, {
                 value: '3rd Block',
-            }]
+            }],
+            spinner: true,
+            toast:true
         }
+       
     }
 
 
@@ -42,22 +46,22 @@ class customerLogin extends React.Component {
     async pushNotification() {
         const { status: existingStatus } = await Permissions.getAsync(
             Permissions.NOTIFICATIONS
-          );
-          let finalStatus = existingStatus;
-        
-          // only ask if permissions have not already been determined, because
-          // iOS won't necessarily prompt the user a second time.
-          if (existingStatus !== 'granted') {
+        );
+        let finalStatus = existingStatus;
+
+        // only ask if permissions have not already been determined, because
+        // iOS won't necessarily prompt the user a second time.
+        if (existingStatus !== 'granted') {
             // Android remote notification permissions are granted during the app
             // install, so this will only ask on iOS
             const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
             finalStatus = status;
-          }
-        
-          // Stop here if the user did not grant permissions
-          if (finalStatus !== 'granted') {
+        }
+
+        // Stop here if the user did not grant permissions
+        if (finalStatus !== 'granted') {
             return;
-          }
+        }
         const token = await Notifications.getExpoPushTokenAsync();
         console.log(token);
         return token;
@@ -70,9 +74,9 @@ class customerLogin extends React.Component {
                 type: 'success',
                 user: {
                     name: "manan poddar",
-                    key: "107682254345676540759",
+                    id: "107682254345676540759",
                     email: "mananpoddarm@gmail.com",
-                    profile: "https://lh3.googleusercontent.com/a-/AAuE7mDF2J8FGmLH7YQ1OXZRQNhGkSCAfJHKuufY4bKj"
+                    photoUrl: "https://lh3.googleusercontent.com/a-/AAuE7mDF2J8FGmLH7YQ1OXZRQNhGkSCAfJHKuufY4bKj"
                 }
             }
 
@@ -131,19 +135,20 @@ class customerLogin extends React.Component {
     async customerLogin() {
         var result = {};
         var authApiResult = this.state.result.user;
+        console.log(authApiResult);
         token = await this.pushNotification();
         var customerData = {
             key: authApiResult.id,
             roomNo: this.state.roomno,
             blockNo: this.state.blockno,
             name: authApiResult.name,
-            key: authApiResult.key,
+            key: authApiResult.id,
             email: authApiResult.email,
             phoneNo: this.state.phoneno,
-            profilePic: authApiResult.profile,
-            pushToken:token
+            profilePic: authApiResult.photoUrl,
+            pushToken: token
         }
-        
+
 
         customerDetailService.postCustomerDetails(customerData).then((res) => {
         }).catch((e) => {
@@ -163,7 +168,13 @@ class customerLogin extends React.Component {
                     <View style={styles.loginScreenContainer}>
                         <View style={styles.loginFormView}>
                             <Text style={styles.logoText}>Central Laundry NITK</Text>
-
+                            {/* <Spinner
+                                visible={this.state.spinner}
+                                textContent={''}
+                                textStyle={styles.spinnerTextStyle}
+                                color="#61DAFB"
+                                size = "large"
+                            /> */}
 
                             <Modal animationType={"slide"} transparent={true} style={styles.modalContainer}
                                 isVisible={this.state.modalVisible}
@@ -279,7 +290,10 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         borderBottomColor: 'grey',
         borderWidth: 1
-    }
+    },
+    spinnerTextStyle: {
+        color: '#FFF'
+    },
 })
 
 export default customerLogin;

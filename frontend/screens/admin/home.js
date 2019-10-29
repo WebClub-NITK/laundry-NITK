@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { Card, ListItem } from 'react-native-elements'
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer } from 'react-navigation';
 
@@ -93,24 +94,34 @@ class adminHome extends React.Component {
                         }
                     });
                     result = { "current": curr, "history": hist };
-                    this.setState({result:result});
+                    this.setState({ result: result });
                 })
             });
 
         }
     }
     _renderList() {
+
         return (
-            this.state.data.map((data) => {
-                return (
-                    <TouchableWithoutFeedback onPress={(event) => this.selectedCustomerKey(data.key)}>
-                        <View>
-                            <Text>{data.name}</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                )
-            })
-        )
+            <Card containerStyle={{ padding: 0 }} >
+                {
+                    this.state.data.map((data) => {
+                        console.log(data);
+                        return (
+                            <TouchableWithoutFeedback onPress={(event) => this.selectedCustomerKey(data.key)}>
+                                <ListItem
+                                    key={data.key}
+                                    roundAvatar
+                                    title={data.name}
+                                    avatar={{ uri: data.profilePic }}
+                                />
+                            </TouchableWithoutFeedback>
+                        );
+                    })
+                }
+            </Card>
+
+        );
     }
     setBlockNo(blockno) {
         if (this._isMounted) {
@@ -125,11 +136,37 @@ class adminHome extends React.Component {
 
     render() {
 
-        tab = createMaterialTopTabNavigator({
-            AddLaundry: createScreen,
-            current: currentLaundryScreen,
-            history: historyLaundryScreen
-        })
+        tab = createMaterialTopTabNavigator(
+            {
+                AddLaundry: createScreen,
+                current: currentLaundryScreen,
+                history: historyLaundryScreen
+            },
+            {
+                tabBarOptions: {
+                    activeTintColor: 'white', // not working
+                    inactiveTintColor: 'grey', // not working
+                    style: {
+                        marginTop:-10,
+                        paddingVertical: 0,
+                        backgroundColor: 'black',
+                        color: "white",
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: -3 },
+                        shadowOpacity: 0.13,
+                        shadowRadius: 5,
+                        elevation: 3,
+                    },
+                    indicatorStyle: {
+                        height: 0
+                    },
+                    showIcon: true,
+                    showLabel: true,
+
+                },
+
+            }
+        )
         TabApp = createAppContainer(tab);
         return (
             <View style={styles.container}>
@@ -160,7 +197,7 @@ class adminHome extends React.Component {
 
 
                 </Modal>
-                <TabApp screenProps={{ customerKey: this.state.customerKey, result: this.state.result }} />
+                <TabApp style={{marginTop:-29}} screenProps={{ customerKey: this.state.customerKey, result: this.state.result }} />
             </View>
 
         );
@@ -170,7 +207,6 @@ export default adminHome;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 3,
     },
     modalContainer: {
         flex: 1,

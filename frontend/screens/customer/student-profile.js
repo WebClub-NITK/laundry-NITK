@@ -32,9 +32,6 @@ class studentProfileScreen extends React.Component {
             <Text style={styles.description}>
               {this.state.profileData.phoneNo}
             </Text>
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ color: 'white' }}>Logout</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </View>
