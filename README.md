@@ -11,7 +11,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -67,7 +66,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-An application to automate tasks done at the Central Laundry,NITK and bring it into the 21st century with the use of modern technology.
+An application to automate tasks done at the Central Laundry, NITK and bring it into the 21st century with the use of modern technology.
 Developed and maintained by members of [DSC NITK](https://dsc.community.dev/national-institute-of-technology-karnataka/).
 
 Here's why:
@@ -80,12 +79,10 @@ Here's why:
 
 
 ### Built With
-
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [Django](https://www.djangoproject.com/m)
 * [React Native](https://reactnative.dev/)
 * [Expo](https://expo.io/)
-* [MySQL](https://www.mysql.com/)
+
 
 
 
@@ -147,6 +144,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 DSC NITK - [NITK DSC Website](https://dsc.community.dev/national-institute-of-technology-karnataka/)
+
 WEC NITK - [WEC Website](https://webclub.nitk.ac.in/)
 
 
@@ -156,14 +154,13 @@ WEC NITK - [WEC Website](https://webclub.nitk.ac.in/)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/WebClub-NITK/laundry-NITK.svg?style=for-the-badge
 [contributors-url]: https://github.com/WebClub-NITK/laundry-NITK/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/WebClub-NITK/laundry-NITK.svg?style=for-the-badge
 [forks-url]: https://github.com/WebClub-NITK/laundry-NITK/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/WebClub-NITK/laundry-NITK.svg.svg?style=for-the-badge
 [stars-url]: https://github.com/WebClub-NITK/laundry-NITK/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/WebClub-NITK/laundry-NITK.svg.svg?style=for-the-badge
 [issues-url]: https://github.com/WebClub-NITK/laundry-NITK/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/WebClub-NITK/laundry-NITK.svg.svg?style=for-the-badge
 [license-url]: https://github.com/WebClub-NITK/laundry-NITK/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
