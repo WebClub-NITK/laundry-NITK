@@ -66,7 +66,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-An application to automate tasks done at the Central Laundry,NITK and bring it into the 21st century with the use of modern technology.
+An application to automate tasks done at the Central Laundry, NITK and bring it into the 21st century with the use of modern technology.
 Developed and maintained by members of [DSC NITK](https://dsc.community.dev/national-institute-of-technology-karnataka/).
 
 Here's why:
@@ -79,12 +79,10 @@ Here's why:
 
 
 ### Built With
-
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [Django](https://www.djangoproject.com/m)
 * [React Native](https://reactnative.dev/)
 * [Expo](https://expo.io/)
-* [MySQL](https://www.mysql.com/)
+
 
 
 
@@ -146,6 +144,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 DSC NITK - [NITK DSC Website](https://dsc.community.dev/national-institute-of-technology-karnataka/)
+
 WEC NITK - [WEC Website](https://webclub.nitk.ac.in/)
 
 
